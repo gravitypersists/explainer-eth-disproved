@@ -1,0 +1,48 @@
+{
+  "annotate": "1.5.3",
+  "schema": 2,
+  "kind": "annotate-export",
+  "exportedAt": "2026-10-27T05:08:32.029Z",
+  "page": "site",
+  "url": "http://127.0.0.1:50203/__didactician/site/index.html",
+  "project": "didactician",
+  "exportedViewport": {
+    "vw": 1203,
+    "vh": 903,
+    "dpr": 2
+  },
+  "comments": [
+    {
+      "schema": 2,
+      "id": "cjp8axo19zbjm4103inik",
+      "page": "didactician:site",
+      "url": "http://127.0.0.1:50203/__didactician/site/index.html",
+      "type": "highlight",
+      "author": "m",
+      "authorId": null,
+      "text": "\"Let's start\"",
+      "color": "#f59e0b",
+      "anchor": {
+        "exact": "Start",
+        "prefix": "   The puzzle: three switches, four rules\n      ",
+        "suffix": " with something you can solve in your head. Ther"
+      },
+      "geom": null,
+      "visibility": "shared",
+      "status": "open",
+      "resolved": false,
+      "resolvedBy": null,
+      "resolvedAt": null,
+      "assignee": null,
+      "assignedAt": null,
+      "replies": [],
+      "createdAt": "2026-10-27T04:27:30.701Z",
+      "updatedAt": "2026-10-27T04:27:30.701Z",
+      "editedAt": null
+    }
+  ],
+  "didactician": {
+    "targets": {},
+    "shots": {}
+  }
+}

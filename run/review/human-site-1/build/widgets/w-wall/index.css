@@ -1,0 +1,86 @@
+/* w-wall: scoped to the mount. Tokens only. */
+/* fixed height (clamped by the page's max-height: 55vh mobile, 70vh desktop) so the sticky canvas never jumps between steps */
+[data-widget="w-wall"] { position: relative; display: flex; flex-direction: column; height: 70vh; }
+
+[data-widget="w-wall"] .ww {
+  flex: 1 1 auto; min-height: 0; display: grid; gap: var(--sp-2);
+  padding: var(--sp-3); box-sizing: border-box; font-family: var(--font-sans); color: var(--ink);
+}
+[data-widget="w-wall"] .ww[data-layout="wide"] {
+  grid-template-columns: minmax(180px, 40%) 1fr; grid-template-areas: "chart text"; align-items: stretch;
+}
+[data-widget="w-wall"] .ww[data-layout="narrow"] {
+  /* chart on top (fixed height, room for both bars) so the step-5 1.307ⁿ bar sits in the upper canvas (P-01) */
+  grid-template-columns: minmax(0, 1fr); grid-template-rows: 140px minmax(0, 1fr); grid-template-areas: "chart" "text";
+  padding: var(--sp-2); gap: var(--sp-1);
+}
+
+/* ---- readout ---- */
+[data-widget="w-wall"] .ww-text { grid-area: text; min-width: 0; container-type: inline-size; display: flex; flex-direction: column; justify-content: center; gap: var(--sp-half); }
+[data-widget="w-wall"] .ww-stepno { font-size: var(--fs-caption); line-height: var(--lh-caption); color: var(--ink-3); letter-spacing: .06em; text-transform: uppercase; }
+[data-widget="w-wall"] .ww-n { font-size: var(--fs-h3); line-height: var(--lh-h3); color: var(--ink-2); }
+[data-widget="w-wall"] .ww-nval { font-family: var(--font-mono); font-weight: 700; color: var(--ink); font-variant-numeric: tabular-nums; }
+[data-widget="w-wall"] .ww-count {
+  font-family: var(--font-mono); font-weight: 700; font-variant-numeric: tabular-nums; color: var(--c6);
+  font-size: clamp(1.5rem, 12.5cqi, 3.25rem); line-height: 1.1; letter-spacing: -.02em; white-space: nowrap;
+}
+[data-widget="w-wall"] .ww-count sup { font-size: .55em; vertical-align: .75em; line-height: 0; }
+[data-widget="w-wall"] .ww-unit { font-size: var(--fs-small); line-height: var(--lh-small); color: var(--ink-2); }
+[data-widget="w-wall"] .ww-formula { font-family: var(--font-mono); color: var(--ink-3); }
+[data-widget="w-wall"] .ww-mult {
+  align-self: flex-start; font-family: var(--font-sans); font-weight: 600; font-size: var(--fs-small); line-height: var(--lh-small);
+  color: var(--ink); background: var(--surface-2); border-radius: var(--radius-1); padding: 0 var(--sp-1);
+}
+[data-widget="w-wall"] .ww-time { margin: var(--sp-1) 0 0; font-family: var(--font-sans); font-size: var(--fs-small); line-height: var(--lh-small); color: var(--ink); transition: opacity var(--dur-2) ease; }
+[data-widget="w-wall"] .ww-time-k { display: inline-block; margin-right: var(--sp-half); font-size: var(--fs-caption); letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+[data-widget="w-wall"] .ww.is-moving .ww-time,
+[data-widget="w-wall"] .ww.is-moving .ww-best { opacity: 0; transition-duration: 0ms; }
+[data-widget="w-wall"] .ww-prev { font-size: var(--fs-caption); line-height: var(--lh-caption); color: var(--ink-3); opacity: .8; font-variant-numeric: tabular-nums; }
+[data-widget="w-wall"] sup { font-size: .7em; line-height: 0; }
+
+[data-widget="w-wall"] .ww-best { margin-top: var(--sp-1); padding-top: var(--sp-1); border-top: 1px solid var(--line); transition: opacity var(--dur-2) ease; }
+[data-widget="w-wall"] .ww-best-num { font-family: var(--font-mono); font-weight: 700; font-size: var(--fs-h3); line-height: var(--lh-h3); color: var(--c4); font-variant-numeric: tabular-nums; }
+[data-widget="w-wall"] .ww-best-lab { font-size: var(--fs-caption); line-height: var(--lh-caption); color: var(--ink-2); }
+[data-widget="w-wall"] .ww-best-cap { margin-top: var(--sp-half); font-size: var(--fs-caption); line-height: var(--lh-caption); color: var(--ink); }
+
+/* ---- chart ---- */
+[data-widget="w-wall"] .ww-chart { grid-area: chart; min-width: 0; min-height: 0; position: relative; display: flex; flex-direction: column; }
+[data-widget="w-wall"] .ww-svg { display: block; flex: 1 1 auto; min-height: 0; width: 100%; overflow: visible; }
+[data-widget="w-wall"] .ww-scale { font-size: var(--fs-caption); line-height: var(--lh-caption); color: var(--ink-3); }
+[data-widget="w-wall"] .ww-axis { stroke: var(--ink-4); stroke-width: 1; }
+[data-widget="w-wall"] .ww-tick { stroke: var(--ink-3); stroke-width: 1; fill: none; }
+[data-widget="w-wall"] .ww-tick-major { stroke: var(--ink-2); }
+[data-widget="w-wall"] .ww-sup { font-size: 10px; }   /* exponents ≥9px rendered (P-09) */
+[data-widget="w-wall"] .ww-axlab { font-family: var(--font-mono); font-size: 12px; fill: var(--ink-3); }
+[data-widget="w-wall"] .ww-bar { fill: var(--c6); }
+[data-widget="w-wall"] .ww-bar.ww-dim { opacity: .35; }
+[data-widget="w-wall"] .ww-bar-best { fill: var(--c4); }
+[data-widget="w-wall"] .ww-ghost { stroke: var(--ink-2); stroke-width: 1; stroke-dasharray: 3 3; opacity: .7; }
+[data-widget="w-wall"] .ww-ghost-lab { font-family: var(--font-mono); font-size: 11px; fill: var(--ink-2); opacity: .8; }
+[data-widget="w-wall"] .ww-ghost-lab.ww-on-bar { fill: var(--surface); opacity: 1; }
+[data-widget="w-wall"] .ww-barname { font-family: var(--font-mono); font-size: 14px; font-weight: 700; fill: var(--c6); }
+[data-widget="w-wall"] .ww-barsub { font-family: var(--font-sans); font-size: 12px; font-weight: 400; fill: var(--ink-2); }
+[data-widget="w-wall"] .ww-barval { font-family: var(--font-mono); font-size: 12px; font-weight: 700; fill: var(--ink); }
+[data-widget="w-wall"] .ww-best-ink { fill: var(--c4); }
+[data-widget="w-wall"] .ww-barsub.ww-best-ink { fill: var(--ink-2); }
+
+/* screen-reader sentence */
+[data-widget="w-wall"] .ww-sr { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; padding: 0; }
+
+/* narrow: smaller headline sizes so the full readout fits in the 50-55vh sticky canvas */
+[data-widget="w-wall"] .ww[data-layout="narrow"] .ww-n { font-size: var(--fs-small); line-height: var(--lh-small); }
+[data-widget="w-wall"] .ww[data-layout="narrow"] .ww-time { margin-top: var(--sp-half); }
+[data-widget="w-wall"] .ww[data-layout="narrow"].has-best .ww-prev { display: none; }
+[data-widget="w-wall"] .ww[data-layout="narrow"] .ww-best { margin-top: var(--sp-half); padding-top: var(--sp-half); }
+[data-widget="w-wall"] .ww[data-layout="narrow"] .ww-best-num { font-size: var(--fs-small); line-height: var(--lh-small); }
+[data-widget="w-wall"] .ww[data-layout="narrow"] .ww-text { position: relative; justify-content: flex-start; }
+[data-widget="w-wall"] .ww[data-layout="narrow"] .ww-stepno { position: absolute; top: 0; right: 0; }
+[data-widget="w-wall"] .ww[data-layout="narrow"] .ww-best-more { display: none; }
+/* compact: very short phones; drop the secondary lines so the chart keeps its room */
+[data-widget="w-wall"] .ww.is-compact .ww-prev { display: none; }
+[data-widget="w-wall"] .ww.is-compact .ww-count { font-size: 1.375rem; }
+[data-widget="w-wall"] .ww-count-unit { display: none; font-family: var(--font-sans); font-weight: 400; font-size: .7em; color: var(--ink-2); letter-spacing: 0; }
+[data-widget="w-wall"] .ww.is-compact .ww-count-unit { display: inline; }
+[data-widget="w-wall"] .ww.is-compact .ww-unit { display: none; }
+[data-widget="w-wall"] .ww.is-compact .ww-best { margin-top: 0; }
+[data-widget="w-wall"] .ww.is-compact .ww-time { margin-top: 0; }

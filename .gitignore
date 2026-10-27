@@ -1,0 +1,5 @@
+.DS_Store
+node_modules/
+# Large, regenerable run artifacts (~130 MB)
+run/screenshots/
+run/history/

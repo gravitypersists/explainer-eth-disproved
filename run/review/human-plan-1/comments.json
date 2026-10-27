@@ -1,0 +1,48 @@
+{
+  "annotate": "1.5.3",
+  "schema": 2,
+  "kind": "annotate-export",
+  "exportedAt": "2026-10-27T01:55:17.162Z",
+  "page": "plan",
+  "url": "http://127.0.0.1:56578/__didactician/site/mockup.html",
+  "project": "didactician",
+  "exportedViewport": {
+    "vw": 1685,
+    "vh": 903,
+    "dpr": 2
+  },
+  "comments": [
+    {
+      "schema": 2,
+      "id": "cg3g5b51uc8pzj1kxkluc",
+      "page": "didactician:plan",
+      "url": "http://127.0.0.1:56578/__didactician/site/mockup.html",
+      "type": "highlight",
+      "author": "m",
+      "authorId": null,
+      "text": "let's just say \"For novices in complexity theory\"",
+      "color": "#f59e0b",
+      "anchor": {
+        "exact": "Hacker News readers (novice in complexity theory) ",
+        "prefix": "is, and OpenAI's claim that it is false\n    For ",
+        "suffix": "· about 12 minutes of the reader's time · scroll"
+      },
+      "geom": null,
+      "visibility": "shared",
+      "status": "open",
+      "resolved": false,
+      "resolvedBy": null,
+      "resolvedAt": null,
+      "assignee": null,
+      "assignedAt": null,
+      "replies": [],
+      "createdAt": "2026-10-27T01:48:38.164Z",
+      "updatedAt": "2026-10-27T01:48:38.164Z",
+      "editedAt": null
+    }
+  ],
+  "didactician": {
+    "targets": {},
+    "shots": {}
+  }
+}

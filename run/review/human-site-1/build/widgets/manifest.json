@@ -1,0 +1,117 @@
+{
+  "data_origins": [],
+  "page_cdn": [
+    "https://fonts.googleapis.com/css2 (Inter, JetBrains Mono, Source Serif 4; stylesheet + fonts.gstatic.com font files)"
+  ],
+  "contract": {
+    "summary": "w-wall and w-ladder live in scrollytelling sections built by the page builder. The page owns the steps (prose) and the check gates; the widget owns only what is drawn inside its mount and reacts to step changes.",
+    "mount": "The mount is the [data-widget] element inside .d-scrolly-canvas. It has a reserved height from page.css (mobile: min-height 50vh, max-height 55vh; >=900px: min-height 68vh, max-height 70vh), a border and surface background, and overflow:hidden. Draw to fill it; lay out from the mount's own width/height (ctx.onResize), not the window.",
+    "steps": "The page sets data-step=\"<n>\" (1-based) and data-step-key=\"<key>\" on the mount for the active scroll step, and dispatches a CustomEvent 'didactician:step' on the mount with detail {step, key, total} on every change (scrolling up goes back to earlier steps). Read el.dataset.step at init, since the first event may fire before your script runs. Rendering must be idempotent per step: jumping from step 1 to 5 (fast scroll, ToC jump) must show step 5's full state.",
+    "gates": "When a check is committed, every mount gets attribute data-gate-<check-id>=\"open\" (e.g. data-gate-k-02=\"open\") and a CustomEvent 'didactician:gate' with detail {check}. Gated steps are hidden by the page until then, so a widget normally only needs to follow steps.",
+    "multiple_mounts": "w-ladder has TWO mounts with the same id: [data-widget=\"w-ladder\"][data-state=\"eth\"] in s-04 and [data-widget=\"w-ladder\"][data-state=\"claim\"] in s-06. Didactician.widget() only initialises the first match (querySelector), so init every mount yourself (querySelectorAll) or call your init per element, and branch on data-state.",
+    "kit": "assets/widget.js, assets/replay.js and assets/arrow.js are loaded before the widget scripts. Didactician.widget / .load / .onReplay / .arrow are available.",
+    "colour_roles": "Keep these consistent with the rest of the page: brute force 2^n = var(--c6); best known before the claim, 1.307^n = var(--c4); OpenAI's claimed algorithm = var(--c2); ETH = var(--c1); SETH = var(--c5); P != NP zone: use var(--ink-3)/var(--surface-2) (neutral) so it reads as distinct from ETH's var(--c1) band; satisfied / still stands = var(--c3).",
+    "math": "The page renders maths with KaTeX at build time (assets/vendor/katex/katex.min.css is loaded). Inside widgets, use plain text with Unicode superscripts or <sup> (e.g. 2ⁿ, 1.307ⁿ, 2^√n as 2<sup>√n</sup>), or load KaTeX yourself; don't depend on the page's renderer.",
+    "framing": "d-02: always 'OpenAI's claim' / 'the claimed algorithm', never 'the proof'. No count of dependent papers anywhere."
+  },
+  "widgets": {
+    "w-switchboard": {
+      "segment": "s-02",
+      "complexity": "low",
+      "built_by": "page-builder",
+      "mount": "#w-switchboard, #w-switchboard-sweep",
+      "size": { "desktop": "prose width (~680px)", "mobile": "100%; switches in a row, lamps 2x2, table below" },
+      "files": ["../assets/page.js", "../assets/page.css"],
+      "cdn": [],
+      "data_origins": []
+    },
+    "w-race": {
+      "segment": "s-06",
+      "complexity": "low",
+      "built_by": "page-builder",
+      "mount": "#w-race",
+      "size": { "desktop": "<=960 x 360", "mobile": "100% x 320, toggle below" },
+      "files": ["../assets/page.js", "../assets/page.css"],
+      "cdn": [],
+      "data_origins": []
+    },
+    "w-wall": {
+      "segment": "s-03",
+      "complexity": "high",
+      "blueprint": "B1",
+      "mount": "[data-widget=\"w-wall\"]",
+      "size": { "desktop": "sticky canvas ~5/9 of the scrolly width (kit .d-scrolly 5fr/4fr) x 68-70vh, steps beside it (>=900px)", "mobile": "sticky canvas full width, 50-55vh, steps scroll below" },
+      "files": ["index.js", "index.css"],
+      "cdn": [],
+      "data_origins": [],
+      "steps": [
+        { "step": 1, "key": "n=3", "show": "n = 3 switches -> 8 rows. Time line: e.g. 'instant'." },
+        { "step": 2, "key": "n=20", "show": "n = 20 -> 1,048,576 rows. Time: 'a laptop: well under a second'." },
+        { "step": 3, "key": "n=100", "show": "n = 100 -> ≈ 1.27 × 10^30 rows. Time: 'a billion computers each checking a billion rows per second: tens of thousands of years' (ac-04: must say 'tens of thousands of years', not a precise year count)." },
+        { "step": 4, "key": "n=110", "gated_on": "k-02", "show": "n = 110 -> ≈ 1.30 × 10^33 rows, shown as ×1,024 (2^10) more than n = 100. Time line: about a thousand times longer than at n = 100 (do not give a year figure; it is not in facts.md)." },
+        { "step": 5, "key": "n=1000", "gated_on": "k-02", "show": "n = 1000 -> ≈ 10^301 rows. Time line: 'more than the ~10^80 atoms in the observable universe'. Plus a second, shorter bar/readout: 1.307^n ≈ 10^116 at n = 1000, labelled 'best known before the claim (randomised, PPSZ family)', caption 'Smaller base, same exponential shape.' (ac-05)" }
+      ],
+      "spec": {
+        "model": "Steps by n (c-02, x-02): n=3 → 8 rows; n=20 → 1,048,576 rows ('a laptop: well under a second'); n=100 → ≈1.27×10^30 rows ('a billion computers each checking a billion rows per second: tens of thousands of years'); n=110 → ×1024 more (gated on k-02); n=1000 → ≈10^301 ('more than the ~10^80 atoms in the observable universe'). Final step: a second readout for the best known algorithm, 1.307^n (c-03), at n=1000 ≈ 10^116, labelled 'best known before the claim (randomised, PPSZ family)'. Numbers above 10^15 are shown as powers of ten. Numbers below that are shown in full with thousands separators.",
+        "shows": "A giant tabular-numeral counter of 2^n, with n labelled on the canvas ('n = 100 switches'). Under it, a one-line translation of the time. A log-scale 'height' bar (one tick per factor of 10) grows between steps (≈600ms ease-in-out). In the last step a second, shorter bar labelled '1.307^n — best known' appears beside it, with the caption 'Smaller base, same exponential shape.' Only the changing number and bar are at full ink; the previous step's values are dimmed.",
+        "acceptance": [
+          "ac-04: Each scroll step shows n and the number of rows on the canvas itself, plus a plain-language time translation. The n=100 step says 'tens of thousands of years' (not a precise year count).",
+          "ac-05: The n=110 step does not reveal until k-02 is committed (the page hides the step; the widget just must not show n=110 content at steps 1-3). The final step shows 1.307^n beside 2^n, labelled as the best known algorithm before the claim, and both are visibly still exponential."
+        ],
+        "notes": [
+          "The step prose (page) deliberately does not repeat the digits; the canvas carries n, rows and the time line.",
+          "Bar growth is a transition between step states; honour prefers-reduced-motion (jump). If you add any one-shot animation longer than 1.5s, mark it data-anim=\"once\" and include a visible [data-replay] inside the mount (I4).",
+          "Facts: 10^30/(10^9 × 10^9 per s) ≈ 10^12 s ≈ 32,000 years (x-02), hence 'tens of thousands of years'."
+        ]
+      }
+    },
+    "w-ladder": {
+      "segment": "s-04, s-06",
+      "complexity": "high",
+      "blueprint": "B1",
+      "mount": "[data-widget=\"w-ladder\"]",
+      "mounts": [
+        { "selector": "[data-widget=\"w-ladder\"][data-state=\"eth\"]", "segment": "s-04", "steps": 4 },
+        { "selector": "[data-widget=\"w-ladder\"][data-state=\"claim\"]", "segment": "s-06", "steps": 3 }
+      ],
+      "size": { "desktop": "sticky canvas ~5/9 of the scrolly width x 68-70vh, steps beside it", "mobile": "vertical ladder (fast at the bottom, slow at the top), sticky 50-55vh, labels >= 13px, steps below" },
+      "files": ["index.js", "index.css"],
+      "cdn": [],
+      "data_origins": [],
+      "steps": {
+        "eth": [
+          { "step": 1, "key": "rungs", "show": "Rungs appear, bottom to top: n^3, 2^√n, [gap where the claim rung will go in s-06], 1.307^n, 2^n." },
+          { "step": 2, "key": "pnp-zone", "show": "Shaded band 'P≠NP says: not down here' covering the polynomial rung only." },
+          { "step": 3, "key": "eth-zone", "show": "Wider shaded band 'ETH says: not anywhere down here' covering everything below the exponential rungs (n^3, 2^√n and the empty gap)." },
+          { "step": 4, "key": "stronger", "show": "Label 'ETH is the stronger bet: it forbids more.'" }
+        ],
+        "claim": [
+          { "step": 1, "key": "as-left", "show": "The ladder as left at the end of s-04 (both zones shaded and labelled)." },
+          { "step": 2, "key": "new-rung", "show": "New rung slides in just below 1.307^n: 'OpenAI's claimed algorithm: 2^{n/√log n} (roughly)', with a flag showing it sits inside ETH's forbidden zone (ac-07)." },
+          { "step": 3, "key": "pnp-untouched", "show": "The polynomial rung stays far below, labelled 'Still nowhere near this, so P vs NP is untouched.' (ac-07)" }
+        ]
+      },
+      "spec": {
+        "model": "An ordered ladder of growth rates for 3-SAT, from fast to slow (x-04): n^3 ('polynomial — what P = NP would need') · 2^√n ('subexponential') · [2^{n/√log n}: hidden in state 'eth'] · 1.307^n ('best known', c-03) · 2^n ('brute force'). Zones: P≠NP forbids everything at or below the polynomial rung (c-05). ETH forbids everything below 'c^n for some c>1', i.e. all subexponential rungs (c-04). The claim (c-14) places an algorithm at 2^{n/(log n)^{1/2+o(1)}}, inside ETH's forbidden zone and well above polynomial (c-06). Two mount states: data-state='eth' (s-04) and data-state='claim' (s-06).",
+        "shows": "Rungs are horizontal bars whose length encodes the log of the step count at n=1000 (so the gaps are honest), each with its formula and plain name labelled on the bar. Forbidden zones are shaded bands with the hypothesis name printed in the band. The current step's change is at full ink and the rest at .35 opacity.",
+        "bar_lengths_at_n_1000": {
+          "n^3": "10^9 (9 digits)",
+          "2^√n": "2^31.6 ≈ 10^9.5 (9.5 digits)",
+          "claimed 2^{n/√ln n}": "≈ 10^114.5 (x-03, constants set to 1)",
+          "1.307^n": "≈ 10^116.3",
+          "2^n": "≈ 10^301"
+        },
+        "designer_flag": "With log-of-step-count bar lengths at n = 1000, the claimed rung (≈114.5 digits) and 1.307^n (≈116.3) come out almost equal, and n^3 (9) and 2^√n (9.5) are also almost equal and very short (~3% of the 2^n bar). This is honest and is the point of s-06 step 2 ('just below 1.307^n at this scale'); keep it. But make the distinction readable: print each bar's digit count on or beside the bar (e.g. '≈ 116 digits' / '≈ 115 digits'), keep the rungs on separate rows so near-equal lengths never overlap, and make sure the two tiny bottom bars are still visible and labelled (a minimum visual length is fine if the printed digit count stays honest). The ordering of the rows (claim below 1.307^n; 2^√n above n^3) carries the 'which is faster' message; the zones carry the hypotheses.",
+        "acceptance": [
+          "ac-06 (s-04): The P≠NP zone and the ETH zone are shaded and labelled on the ladder itself, and the ETH zone visibly covers more rungs than the P≠NP zone.",
+          "ac-07 (s-06): In the 'claim' state the new rung appears inside ETH's forbidden zone and well above the polynomial rung, with a label saying P vs NP is untouched.",
+          "ac-10 (s-04, with the page's prose and k-03): ETH is stated in plain words and called an unproven assumption (page prose does this)."
+        ],
+        "notes": [
+          "Step prose (page) for eth step 1 says: 'The gaps are to scale: each bar's length is the number of digits in the step count when n = 1,000.' So the canvas should say or show 'digits at n = 1,000' as its axis/scale note.",
+          "Mobile: vertical layout under ~520px container width; labels >= 13px; nothing hover-only."
+        ]
+      }
+    }
+  }
+}

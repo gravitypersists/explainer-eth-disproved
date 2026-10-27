@@ -1,0 +1,14 @@
+segments:
+  s-01   A paper with a blunt title
+  s-02   The puzzle: three switches, four rules
+  s-03   The doubling wall
+  s-04   The bet: "you can't get under the wall"
+  s-05   What was built on the bet
+  s-06   The claim
+  s-07   If it holds: what falls, what stands
+  s-08   Is it true? What "verified" does and doesn't mean
+  s-09   The whole story in five statements
+objectives: 4 · segments: 9 · reader's time: 12 min
+widgets: w-switchboard (low), w-wall (high), w-ladder (high), w-race (low)
+checks: 9 · acceptance criteria: 20
+RESULT: PASS

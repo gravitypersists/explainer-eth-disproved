@@ -1,0 +1,6 @@
+depth: standard
+counts: claims 33/25, sources 15/15, examples 6/8, misconceptions 6/6
+assets: 0 (0 need the user)
+unresolved questions: none
+ERROR claims: 33 exceeds the `standard` cap of 25. Converge: keep what the objectives need, move the rest to parking-lot.md
+RESULT: FAIL

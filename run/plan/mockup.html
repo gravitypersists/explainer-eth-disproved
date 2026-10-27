@@ -1,0 +1,414 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mockup: ETH, and the claim it is false</title>
+<!--
+  Checkpoint wireframe skeleton. The instructional designer copies this to run/plan/mockup.html
+  and fills it in. It is deliberately low-fidelity: grey boxes, real words. The human must be able
+  to judge WHAT the piece will contain and HOW it will flow, not how it will look.
+
+  Keep these section ids: #overview #segments #cuts #assets. Replace every ALL-CAPS placeholder.
+  Use real headings, real prompts, real intents. Placeholder FIGURES are fine, but each must carry
+  a written description precise enough that the human can picture it.
+  Prose lines are draft wording (the page builder writes the final prose); prompts, options and
+  answers are final. Keep the note under the Segments heading so the human approves on that basis.
+-->
+<style>
+  :root {
+    --bg: #fafaf9; --panel: #fff; --ink: #1c1917; --ink-2: #57534e; --ink-3: #a8a29e;
+    --line: #e7e5e4; --fill: #f5f5f4; --accent: #2563eb; --warn: #b45309; --ok: #15803d;
+    --s1: 8px; --s2: 16px; --s3: 24px; --s4: 32px; --s6: 48px;
+    --mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+    --sans: system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg:#0c0a09; --panel:#1c1917; --ink:#fafaf9; --ink-2:#d6d3d1; --ink-3:#78716c;
+            --line:#292524; --fill:#292524; --accent:#60a5fa; --warn:#f59e0b; --ok:#4ade80; }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.5 var(--sans); }
+  .bar { position: sticky; top: 0; z-index: 2; display: flex; gap: var(--s2); align-items: center;
+         flex-wrap: wrap; padding: var(--s1) var(--s2); background: var(--panel); border-bottom: 1px solid var(--line);
+         font: 13px/1.4 var(--mono); }
+  .bar b { font-weight: 600; }
+  .bar .sp { flex: 1; }
+  .bar button { font: inherit; padding: 4px 8px; border: 1px solid var(--line); background: var(--fill);
+                color: var(--ink); border-radius: 4px; cursor: pointer; }
+  .bar button[aria-pressed="true"] { border-color: var(--accent); color: var(--accent); }
+  main { max-width: 1040px; margin: 0 auto; padding: var(--s4) var(--s2) var(--s6); }
+  body.mobile main { max-width: 360px; padding-left: 0; padding-right: 0; }
+  body.mobile .seg { grid-template-columns: 1fr; }
+  h1 { font-size: 28px; line-height: 1.2; margin: 0 0 var(--s1); }
+  h2 { font: 600 13px/1.4 var(--mono); letter-spacing: .04em; text-transform: uppercase; color: var(--ink-2);
+       margin: var(--s6) 0 var(--s2); }
+  .meta { color: var(--ink-2); font-size: 14px; }
+  .panel { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: var(--s2); }
+  .seg { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: var(--s2);
+         margin-bottom: var(--s3); }
+  .seg header { grid-column: 1 / -1; display: flex; gap: var(--s1); align-items: baseline; flex-wrap: wrap; }
+  .seg header .id { font: 12px var(--mono); color: var(--ink-3); }
+  .seg header h3 { margin: 0; font-size: 18px; }
+  .tag { font: 11px/1 var(--mono); padding: 3px 6px; border-radius: 3px; background: var(--fill); color: var(--ink-2); }
+  .intent { font-style: italic; color: var(--ink-2); margin: 0 0 var(--s1); }
+  .prose { color: var(--ink-2); font-size: 14px; }
+  .prose p { margin: 0 0 var(--s1); }
+  .fig { min-height: 160px; border: 2px dashed var(--ink-3); border-radius: 8px; background: var(--fill);
+         padding: var(--s2); font-size: 14px; color: var(--ink-2); display: flex; flex-direction: column; gap: var(--s1); }
+  .fig .kind { font: 600 11px var(--mono); letter-spacing: .04em; text-transform: uppercase; color: var(--ink); }
+  .check { border-left: 3px solid var(--accent); padding: var(--s1) var(--s2); background: var(--panel); margin-top: var(--s1); font-size: 14px; }
+  .check .kind { font: 600 11px var(--mono); text-transform: uppercase; color: var(--accent); }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th, td { text-align: left; padding: var(--s1); border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { font: 600 12px var(--mono); color: var(--ink-2); }
+  .needs-user { color: var(--warn); font-weight: 600; }
+  .license { color: var(--ok); }
+  .warn { color: var(--warn); }
+  .tag.chg { background: var(--warn); color: #fff; }
+  .disc { display: inline-block; border: 1px solid var(--ink-3); border-radius: 8px; background: var(--fill); padding: 6px 10px; font-weight: 500; }
+  @media (max-width: 720px) { .seg { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="bar">
+  <b>MOCKUP</b><span>The Exponential Time Hypothesis, and OpenAI's claim that it is false</span><span class="sp"></span>
+  <button type="button" id="vw-desk" aria-pressed="true">desktop</button>
+  <button type="button" id="vw-mob" aria-pressed="false">mobile 360</button>
+</div>
+<main>
+  <section id="overview">
+    <h1>The Exponential Time Hypothesis, and OpenAI's claim that it is false</h1>
+    <p class="meta">For Hacker News readers (novice in complexity theory) · plan v2 · estimated ~15.5 min (built v1 ~13.4; brief 12; cuts deferred to the user per d-07) · scrollytelling in 9 chapters, re-skinned ToC rail on desktop</p>
+    <div class="panel">
+      <p><b>Shape:</b> A story told in order: a puzzle → the wall it hits → the bet that the wall is permanent (ETH) → what was built on the bet → the claim that breaks it → the fallout → how far to trust it. Sticky canvases advance as you scroll (presentational, as requested). Predict-then-reveal cards sit at the key ideas and at each misconception, so the reader doesn't just watch. Rejected: a full-page explorable or SAT-solver sandbox. It's slower to learn, the user asked for presentation, and the new algorithm's speedup can't be shown at any size a browser can run.</p>
+      <p><b>Framing (d-02):</b> it is always "OpenAI's claim", never "the proof that ETH is false". Press-only details (dates, "practical speedups need further research") are attributed as reported. No count of dependent papers is given.</p>
+      <p><b>Objectives:</b></p>
+      <ul>
+        <li><b>o-1</b> Explain 3-SAT with a concrete example, and why brute force takes ~2^n. <span class="meta">checks: k-01, k-02</span></li>
+        <li><b>o-2</b> State ETH in plain words and tell it apart from P≠NP. <span class="meta">checks: k-03, k-08</span></li>
+        <li><b>o-3</b> Explain why ETH matters (conditional lower bounds, and the bolder SETH) with an example or two. <span class="meta">checks: k-04, k-09, k-06, k-08</span></li>
+        <li><b>o-4</b> Explain what OpenAI claims, its verification status, and what would and wouldn't follow. <span class="meta">checks: k-05, k-06, k-07, k-08</span></li>
+      </ul>
+      <p class="meta">check_plan warnings: none</p>
+      <p><b>Page-wide (v2):</b> every disclosure is a bordered, tinted box with a chevron, a "More ·" kicker and a show/hide hint, never styled like a subhead (H-09). The ToC uses the page sans, numbered chapters, full titles, and the current chapter marked with an accent bar and pill (H-08).</p>
+    </div>
+  </section>
+
+  <section id="segments">
+    <h2>Segments</h2>
+    <p class="meta">Prose is draft wording: it shows what each segment says and in what order. The final prose is written for the reader at build time. Check prompts, options and answers are final.</p>
+
+    <article class="seg" id="s-01">
+      <header><span class="id">s-01</span><h3>A paper with a blunt title</h3><span class="tag">hook</span><span class="tag">o-4</span></header>
+      <div>
+        <p class="intent">Hook with the real artifact, framed from line one as a claim under review.</p>
+        <div class="prose">
+          <p>"On 26 October 2026, OpenAI published a paper, written by one of its internal models, titled <i>The Exponential Time Hypothesis is False</i>. The two people who invented that hypothesis are now checking it."</p>
+          <p>Roadmap, as four questions: What's the puzzle? What is ETH? Why did anyone care? And what does it mean if OpenAI is right, and how sure can we be?</p>
+          <p>One clause notes that the same release made two other claims (in harmonic analysis and in physics), which are out of scope here.</p>
+        </div>
+      </div>
+      <div class="fig">
+        <span class="kind">HERO FIGURE · flair</span>
+        A document card showing the paper's real title, "OpenAI", 25 Oct 2026, with a tilted stamp "CLAIM · UNDER REVIEW". Behind it, a field of 0/1 bits flickers once (≤1.5s). Under the card is a 3-item strip: Found by: an unnamed internal OpenAI model · Checked by: Lean proof assistant · Reviewed by: Impagliazzo, Paturi (ETH's inventors), Williams.
+        On mobile: the card is full width; the strip stacks into 3 lines.
+      </div>
+    </article>
+
+    <div class="panel" id="rev2">
+      <p><b>Revision 2 (site-1 review).</b> Changed segments are marked <span class="tag chg">changed in v2</span>. The flow through s-02…s-06 is now: puzzle → <i>named in plain words, then "3-SAT"</i> → <i>its family (quick to check, hard to find; all translate into each other)</i> → wall (linear; time text in the step cards; the numbers written out) → <i>"where could the best possible algorithm sit?"</i> ladder (an ordinal ranking, per-switch multipliers, bets as brackets) → a link, not a proof (graph colouring, from the family) → <i>a bolder bet: SETH</i> (its own figure and check) → static foundation summary → the claim (no timeline; the disclosure is a visible button). The common currency is <b>the multiplier per extra switch</b>.</p>
+      <p class="meta">Estimated reading time ~15.5 min (built v1: ~13.4 min). Per d-07, nothing was cut; options are in the cut order below.</p>
+    </div>
+
+    <article class="seg" id="s-02">
+      <header><span class="id">s-02</span><h3>The puzzle: three switches, four rules</h3><span class="tag">concrete → predict → name → family</span><span class="tag">o-1</span><span class="tag">o-3</span><span class="tag chg">changed in v2</span></header>
+      <div>
+        <p class="intent">Solve the puzzle by hand, name it in plain words before the label, then show it stands for a whole family.</p>
+        <div class="prose">
+          <p>"Here are three switches and four rules. Every rule must be on. Try it." (Switchboard and k-01, as built.)</p>
+          <p><b>Naming (new):</b> "What you just solved is a <i>satisfiability</i> puzzle: yes/no switches, and rules that each say <i>at least one of these must hold</i>. Can some setting satisfy every rule at once? When each rule mentions at most three switches, computer scientists call it <b>3-SAT</b>: SAT for satisfiability, 3 for three per rule. The sure-fire method is the table: with n switches, 2ⁿ settings to try."</p>
+          <p><b>Subhead (new): One puzzle stands for a whole family.</b> "Checking a setting took a glance. Finding one meant trying settings. Many famous problems share that shape: quick to check, apparently a search to find. Colour a network so no two linked dots match. Plan a route through every city exactly once. And the hardest of them can be rewritten as one another, at about the same size. That's why 3-SAT matters far beyond switches: its own paper calls it 'the canonical NP-complete problem'. A fast way to solve it would hand you fast ways to solve the whole family."</p>
+          <p>Disclosure (new style): <span class="disc">▸ More · How to read NOT and OR <span class="meta">show</span></span></p>
+        </div>
+        <div class="check">
+          <div class="kind">PREDICT · k-01</div>
+          There are 2 × 2 × 2 = 8 ways to set the three switches. How many of them light all four rules? Options: None of them / <b>Exactly 2</b> / About half (4) / All 8.
+          <br><i>Feedback:</i> Exactly 2: (F,F,T) and (F,T,T). The only way to be sure was to check every setting: brute force. <b>New line:</b> Notice the lopsidedness: checking one setting is a glance, but finding a good one meant trying them. Every extra switch doubles the table.
+        </div>
+      </div>
+      <div>
+        <div class="fig">
+          <span class="kind">WIDGET · w-switchboard · complexity low · unchanged</span>
+          Three toggles, four live rule lamps, and a "Try all 8" sweep gated on k-01, with replay.
+        </div>
+        <div class="fig" style="margin-top:8px">
+          <span class="kind">FIGURE · f-family · static (new)</span>
+          A header band: "Quick to check · seems to need a search to find". A centre card, "3-SAT · the switches puzzle", with a tiny 3-switch glyph. Four cards around it, each with a pictogram and a one-liner: <b>Graph colouring</b> (5 dots, 3 colours: "no two linked dots share a colour"), <b>Hamiltonian cycle</b> ("a route through every city exactly once"), <b>Vertex cover</b> ("a few dots that touch every link"), <b>Clique</b> ("k dots all linked to each other"). Two-headed arrows to the centre, labelled once: "rewrite one as the other, about the same size". Caption: "Computer scientists call this family NP; the members that all translate into each other are NP-complete."
+          On mobile: the cards go 2×2 around the centre card, and the arrows become one labelled bracket.
+        </div>
+      </div>
+    </article>
+
+    <article class="seg" id="s-03">
+      <header><span class="id">s-03</span><h3>The doubling wall</h3><span class="tag">scrolly worked example · B1</span><span class="tag">o-1</span><span class="tag chg">changed in v2</span></header>
+      <div>
+        <p class="intent">Make 2ⁿ look as daunting as it is, on a linear scale. Show the best known algorithm only shortens the number.</p>
+        <div class="prose">
+          <p>The step cards now carry the time text (H-01):</p>
+          <p>1 · n=3: "8 rows. Instant: you just checked them by hand."</p>
+          <p>2 · n=20: "About a million rows: a laptop does it in well under a second. And look what happened to your 8 rows."</p>
+          <p>3 · n=100: "The bar for 20 switches has vanished. A billion computers, each checking a billion rows a second: tens of thousands of years."</p>
+          <p>[k-02 gate] 4 · n=110: "Ten more switches, 1,024× the work: tens of millions of years."</p>
+          <p>5 · n=1000: "No bar can hold this, so here is the number written out: 302 digits. The atoms in the observable universe number about 10⁸⁰, an 81-digit number."</p>
+          <p>6 · "The best known algorithm before OpenAI's claim (PPSZ family) takes about 1.307ⁿ steps: at n=1000, a 117-digit number. A smaller multiplier per switch, ×1.307 instead of ×2, but still a fixed one. A lower wall, not a way around it."</p>
+        </div>
+        <div class="check">
+          <div class="kind">PREDICT · k-02 · unchanged</div>
+          Brute force on 100 switches already needs about 10^30 checks. Add 10 more switches. How much more work is that? Options: About 10% more (tempting) / About 10× more / <b>About 1,000× more</b>.
+          <br><i>Feedback:</i> 2^10 = 1,024. 110 is only 10% bigger than 100, but each switch doubles the table, ten times over.
+        </div>
+      </div>
+      <div class="fig">
+        <span class="kind">WIDGET · w-wall · complexity high · linear scale (redesigned)</span>
+        <b>On canvas:</b> only "n = 100 switches" and the row count, written in full. There is <b>no time text</b> and <b>no log axis</b>.
+        <b>Steps 1–4, bar mode:</b> the current step's bar fills the canvas height. The previous step's bar shrinks, as you watch, to its true size beside it: a hairline with a dashed outline, labelled "n = 20 · 1,048,576 rows · too small to see at this scale". Each step crushes the last.
+        <b>Steps 5–6, digit mode:</b> the bar gives way to the number itself. All 302 digits of 2¹⁰⁰⁰ fill the canvas as a dense monospace block, with the bracket "2¹⁰⁰⁰ = a 302-digit number". Step 6 adds, in the same type and line width, the 117 digits of 1.307¹⁰⁰⁰ ("best known before the claim") and a thin 81-digit line "10⁸⁰ ≈ atoms in the universe". Width is digit count, so 302 vs 117 vs 81 reads at a glance.
+        On mobile: the canvas is sticky ≤55vh; the digits are 11–12px mono, ~10 lines for 302 digits, with no horizontal overflow.
+      </div>
+    </article>
+
+    <article class="seg" id="s-04">
+      <header><span class="id">s-04</span><h3>The bet: "you can't get under the wall"</h3><span class="tag">question → ranked candidates · B1 → apply</span><span class="tag">o-2</span><span class="tag chg">changed in v2</span></header>
+      <div>
+        <p class="intent">Ask where the best <i>possible</i> 3-SAT algorithm could sit; show ETH and P≠NP as bets about that, with ETH the bolder one.</p>
+        <div class="prose">
+          <p>"Clever algorithms have lowered the multiplier per switch, from ×2 to about ×1.307, but every one found so far still pays <i>some</i> fixed multiplier for each extra switch. Is that a law, or have we just not been clever enough? Nobody knows the fastest <i>possible</i> algorithm for 3-SAT. Here are four candidate answers, sorted by how quickly the work grows as you add switches. Two are algorithms we have. Two are speeds nobody has achieved."</p>
+          <p>"In 1999, Russell Impagliazzo and Ramamohan Paturi made a precise bet, the <b>Exponential Time Hypothesis (ETH)</b>: every algorithm for 3-SAT, however clever, pays at least some fixed multiplier for each extra switch. It might be tiny, ×1.001, but it never fades away. Nobody has proved it. It's an assumption."</p>
+          <p>Steps: (1) four candidates; (2) P ≠ NP's bet: "somewhere above n³"; (3) ETH's bet: "above ETH's line", a shorter bracket, so the bolder bet.</p>
+          <p>Disclosure: <span class="disc">▸ More · The formal statement <span class="meta">show</span></span></p>
+        </div>
+        <div class="check">
+          <div class="kind">APPLY · k-03</div>
+          Suppose someone proved that 3-SAT can be solved in about 2^√n steps. Which assumption would be broken? Options: P ≠ NP (so P = NP) (tempting) / <b>ETH only</b> / Both / Neither.
+          <br><i>Feedback:</i> With 2^√n the multiplier per switch fades toward ×1, so it sits below ETH's line, where ETH bet nothing could be. But it still grows faster than any polynomial, above n³, so P ≠ NP is untouched. A broken ETH alone says nothing about P vs NP.
+        </div>
+      </div>
+      <div class="fig">
+        <span class="kind">WIDGET · w-ladder (state "eth") · complexity high · ordinal (redesigned)</span>
+        Title in the figure: <b>"Where could the best possible 3-SAT algorithm sit?"</b> The left axis is an arrow, "↑ work grows faster as you add switches (order as n gets large)". The rungs sit at a fixed pitch with <b>no bars and no digit counts</b>:
+        <br>2ⁿ · brute force · <i>we have this</i> · ×2 per switch
+        <br>1.307ⁿ · best known (PPSZ) · <i>we have this</i> · ×1.307 per switch
+        <br>– – – ETH's line: above, a fixed multiplier per switch; below, the multiplier fades – – –
+        <br>[space for the claim rung in s-06]
+        <br>2^√n · subexponential · <i>nobody has found this</i> · multiplier fades toward ×1
+        <br>n³ · polynomial: what P = NP would need · <i>nobody has found this</i> · doubling the switches: ×8
+        <br>On the right edge there are two bracket rails: a long one, "P ≠ NP bets: the best algorithm is somewhere up here" (everything above n³), and a short one, "ETH bets: up here" (above ETH's line). Footer: "ETH's bracket is shorter: it's the bolder bet."
+        On mobile: vertical, rung pitch ≥40px, the per-switch phrase on a second line, brackets as a thin right rail; nothing overprints at 360×640 or in landscape.
+      </div>
+    </article>
+
+    <article class="seg" id="s-05">
+      <header><span class="id">s-05</span><h3>What was built on the bet</h3><span class="tag">worked conditional → explain → SETH → compare</span><span class="tag">o-3</span><span class="tag chg">changed in v2</span></header>
+      <div>
+        <p class="intent">Show ETH is load-bearing using a family member the reader met; then give SETH a proper, deliberate introduction, because chapter 7 depends on it.</p>
+        <div class="prose">
+          <p><b>Subhead: A link, not a proof.</b> "Researchers usually can't prove outright that a problem has no fast algorithm. What they can prove is a link. Remember chapter 2's family, and graph colouring in it? Because colouring and 3-SAT can be rewritten as one another at about the same size, a result reads: <i>Graph colouring has no 2^{o(n)} algorithm on n-vertex graphs, unless ETH fails.</i> A much faster colouring algorithm would be a much faster 3-SAT algorithm, and that would break ETH."</p>
+        </div>
+        <div class="check">
+          <div class="kind">EXPLAIN · k-04 · think, then reveal · unchanged</div>
+          A paper proves "graph colouring has no 2^{o(n)} algorithm, unless ETH fails." In your own words: what did it actually prove, and what would make the statement stop telling us anything about hardness?
+          <br><i>Model answer:</i> It proved a link: a much faster colouring algorithm would give a much faster 3-SAT algorithm. Colouring is "hard" only while ETH holds. If ETH fails, the statement is still true but no longer shows hardness.
+        </div>
+        <div class="prose" style="margin-top:8px">
+          <p><b>Subhead (new): A bolder bet: SETH.</b> "ETH only says 3-SAT's multiplier never fades to ×1. There's a much bolder bet, the <b>Strong Exponential Time Hypothesis (SETH)</b>: let the rules get wider, 4, 5, 10 switches each, and the best possible multiplier climbs all the way to ×2. For wide rules, brute force is essentially unbeatable. Bolder bets buy stronger results. The most famous: Backurs and Indyk proved that edit distance (a close relative of what diff computes) can't be done much faster than quadratic time, unless SETH fails. <b>Hold on to SETH and edit distance; they come back in chapter 7.</b>"</p>
+          <p>Disclosure: <span class="disc">▸ More · Why does SETH imply ETH? <span class="meta">show</span></span></p>
+        </div>
+        <div class="check">
+          <div class="kind">COMPARE · k-09 (new)</div>
+          ETH and SETH are both unproven bets. Which one is riskier, that is, easier to turn out wrong? Options: ETH: it's the original / <b>SETH: it claims more</b> / Equally risky: they're about the same problem.
+          <br><i>Feedback:</i> SETH. It claims more: not just "some fixed multiplier per switch" but "×2 for wide rules". A bigger claim has more ways to fail, and anything that breaks ETH breaks SETH too, since SETH implies ETH. The payoff is stronger results, like the edit-distance bound. Keep this in mind for chapter 7.
+        </div>
+      </div>
+      <div>
+        <div class="fig">
+          <span class="kind">FIGURE · f-seth · static (new)</span>
+          A horizontal scale, "Multiplier per extra switch, for the best possible algorithm", from <b>×1</b> ("no growth") to <b>×2</b> ("brute force"). A tick at ×1.307: "best known for 3-SAT today". Above the scale: an <b>ETH</b> bracket from just above ×1 to ×2, "3-SAT: somewhere above ×1, a fixed amount". A <b>SETH</b> arrow slides right past faint markers "3 per rule · 5 per rule · wider…" and ends at ×2: "as rules widen, pushed up to ×2: brute force is about the best possible". The figure is marked "schematic: only ×1.307 is a real value". Under it: "SETH claims more, so it's the riskier bet. If ETH falls, SETH falls with it."
+          On mobile: a vertical scale.
+        </div>
+        <div class="fig" style="margin-top:8px">
+          <span class="kind">FIGURE · f-foundation (state A) · STATIC: no build-in, no Replay (changed)</span>
+          A summary that closes the chapter, titled "What rests on ETH and SETH". At the bottom, "ETH" as the base, with "SETH (bolder) · SETH ⇒ ETH" on top of it. Theorem blocks with labelled arrows: on ETH, "Graph colouring, Hamiltonian cycle, vertex cover: no 2^{o(n)}" and "k-Clique: no n^{o(k)}"; on SETH, "Edit distance (a close relative of diff): no O(n^{2−δ})"; plus "… and many more".
+          On mobile: vertical, bases at the bottom.
+        </div>
+      </div>
+    </article>
+
+    <article class="seg" id="s-06">
+      <header><span class="id">s-06</span><h3>The claim</h3><span class="tag">statement → ladder → predict → chart</span><span class="tag">o-4</span><span class="tag chg">changed in v2</span></header>
+      <div>
+        <p class="intent">Say exactly what's claimed and where it lands: below ETH's line, nowhere near polynomial.</p>
+        <div class="prose">
+          <p>"OpenAI's claim: a deterministic algorithm that <i>counts</i> the solutions of any 3-SAT formula, or any fixed-width k-SAT, in roughly</p>
+          <p style="text-align:center">(n+m)^{O(1)} · 2^( n / (log n)^{1/2 + o(1)} )</p>
+          <p>steps, using only polynomial memory. If you can count solutions you can tell whether there is one. In per-switch terms, its multiplier fades toward ×1 as n grows: very slowly, but it fades. That is exactly what ETH bet could never happen."</p>
+          <p>Disclosure, now visibly a button (H-09): <span class="disc">▸ More · What the paper actually proves <span class="meta">show</span></span></p>
+          <p class="warn">The timeline no longer follows the disclosure; it moved to s-08 (H-09).</p>
+        </div>
+        <div class="check">
+          <div class="kind">PREDICT · k-05 · as built</div>
+          The claimed algorithm is subexponential, and the old best was exponential. When do you expect it to beat the old best (1.307ⁿ) on real formulas? Options: Immediately: SAT solvers get faster / Within a few dozen variables / <b>Only at enormous sizes, if ever</b>.
+          <br><i>Feedback:</i> With constants set to 1: ~800 variables (sparse), ~10^79 (general); real constants unknown. Press coverage (e.g. Unite.AI) says practical speedups would take substantial further research.
+        </div>
+      </div>
+      <div>
+        <div class="fig">
+          <span class="kind">WIDGET · w-ladder (state "claim") · complexity high</span>
+          The same ordinal ladder. A new rung slides in <b>below ETH's line</b>, above 2^√n: "OpenAI's claimed algorithm, roughly 2^(n/√log n) · <i>claimed</i> · multiplier fades toward ×1, slowly", with the flag "below ETH's line: if this holds, ETH's bet is lost". Then n³ is highlighted: "still far below: P vs NP untouched". The axis note "order as n gets large" stays visible.
+        </div>
+        <div class="fig" style="margin-top:8px">
+          <span class="kind">WIDGET · w-race · complexity low · revealed after k-05 · as built</span>
+          Log-log chart of 2ⁿ, 1.307ⁿ and the claim, with a sparse | general toggle, crossover ≈ 800 (sparse) and an edge arrow at ≈ 10^79 (general), and the banner "Illustrative: real constants unknown, could be large."
+        </div>
+      </div>
+    </article>
+
+    <article class="seg" id="s-07">
+      <header><span class="id">s-07</span><h3>If it holds: what falls, what stands</h3><span class="tag">predict → misconceptions · B4</span><span class="tag">o-3</span><span class="tag">o-4</span></header>
+      <div>
+        <p class="intent">Work through the consequences: unproven (not false) theorems, SETH falls too, OVC survivors, no P=NP, no crypto break.</p>
+        <div class="prose">
+          <p>"Back to the foundation. If ETH goes, what happens to everything stacked on it?"</p>
+          <p>After k-06, the diagram <b>swaps instantly</b> to state B (no animation), with a "Before · If the claim holds" toggle to compare (v2). "These theorems aren't wrong. They're conditional statements whose condition has failed: the hardness is unproven again. A few bounds, edit distance among them, keep a footing on OVC."</p>
+          <p>Three myth cards, shown together (not a carousel).</p>
+        </div>
+        <div class="check">
+          <div class="kind">PREDICT · k-06</div>
+          The famous result that edit distance (a close relative of what diff computes) can't be done much faster than quadratic time assumes SETH, not ETH. If OpenAI's claim holds, what happens to that result? Options: Untouched: only ETH was refuted (tempting) / <b>It loses its basis: SETH falls too</b> / Edit distance now has a fast algorithm.
+          <br><i>Feedback (as built, A-01):</i> SETH implies ETH, so ETH false means SETH false, and the paper says so. Yet the quadratic bound still stands: Backurs and Indyk's proof starts from OVC, which this claim doesn't touch; likewise LCS and regex matching. And losing a basis never meant "now fast".
+        </div>
+      </div>
+      <div class="fig">
+        <span class="kind">FIGURE · f-foundation (state B) · static swap after k-06 + Before/After toggle (changed)</span>
+        ETH and SETH read "refuted (claimed)", with cracks behind the text. The ETH theorem blocks keep their text with a neutral chip, "unproven again — not disproved". Edit distance reads "SETH basis lost · still stands on OVC" and rests on a third base, "Orthogonal Vectors Conjecture (not refuted)", which also holds "Longest common subsequence, regex matching: still stands".
+        <span class="kind">FIGURE · 3 myth cards in a grid</span>
+        (1) "So P = NP?" → No. 2^{n/√log n} is far above polynomial, and the paper itself says its result doesn't imply subexponential algorithms for general NP problems. (2) "So crypto is broken?" → No. Factoring has had a subexponential algorithm (GNFS) for decades; properly sized RSA is still secure. "Subexponential" can mean astronomically slow. (3) "So colouring and Hamiltonian cycle are fast now?" → No. Losing the proof of hardness isn't finding a fast algorithm.
+        On mobile: the diagram is vertical; the cards stack.
+      </div>
+    </article>
+
+    <article class="seg" id="s-08">
+      <header><span class="id">s-08</span><h3>Is it true? What "verified" does and doesn't mean</h3><span class="tag">contrast · B4 → explain</span><span class="tag">o-4</span></header>
+      <div>
+        <p class="intent">Teach the reader to read "verified in Lean" correctly, and what to watch for.</p>
+        <div class="prose">
+          <p>"'Verified in Lean' is strong evidence, and it's also narrower than it sounds."</p>
+          <p><b>Moved here in v2 (H-09):</b> a compact "How the claim surfaced" row above the review card: 16 Oct, model produces the claimed disproof (as reported) · 17 Oct, formalised in Lean (as reported) · 25 Oct, date on the manuscript · 26 Oct, made public and review group announced.</p>
+          <p>After the table: the review group's own words, as reported: "Our involvement should not be taken as certification of the claim." Base rate: the same repo withdrew three unrelated manuscripts on 7 Oct after a sign error.</p>
+          <p>What to watch for: the working group's write-up · whether the Lean definitions are judged faithful · independent re-checks · whether the paper's sharper bound holds.</p>
+          <p>Collapsed: "The exact formal bound" (Lean proves 2^{A·n(log log n)²/√log n}, slightly weaker than the headline but still enough to refute ETH).</p>
+        </div>
+        <div class="check">
+          <div class="kind">EXPLAIN · k-07 · think, then reveal</div>
+          Lean's checker accepted the proof. Name one way the result could still turn out to be wrong, or weaker than advertised.
+          <br><i>Model answer:</i> Lean confirms that the formal theorem follows. Humans must confirm that the formal definitions (machine model, formula encoding, what "time" counts) mean what the paper says. A subtly off definition could make the checked theorem say less than the headline. ETH's own inventors are among those reviewing it, and they say their involvement isn't a certification.
+        </div>
+      </div>
+      <div class="fig">
+        <span class="kind">FIGURE · two-column table + review card</span>
+        The left column, "Lean's checker guarantees", has three rows: it proves exactly the stated theorem · it uses only the 3 standard axioms · the Lean kernel accepts it. The right column, "Humans still have to confirm", has three rows: the definitions (Turing-machine model, CNF encoding) are faithful · the paper's sharper bound (not the one formalised) holds · the informal parts are right. Under the table, a card: "Working group: Impagliazzo, Paturi (ETH's inventors), Williams" plus the quote.
+        On mobile: two stacked panels with matching row labels.
+      </div>
+    </article>
+
+    <article class="seg" id="s-09">
+      <header><span class="id">s-09</span><h3>The whole story in five statements</h3><span class="tag">interleaved retrieval → recap</span><span class="tag">o-2</span><span class="tag">o-3</span><span class="tag">o-4</span></header>
+      <div>
+        <p class="intent">Retrieve across all objectives, then close.</p>
+        <div class="check">
+          <div class="kind">SORT · k-08 · each statement committed separately</div>
+          Suppose the claim survives review. For each statement, does it follow?
+          <br>(a) P = NP → <b>doesn't follow</b> (far above polynomial)
+          <br>(b) 3-SAT can be solved in 2^{o(n)} time → <b>follows</b> (that's the claim)
+          <br>(c) RSA encryption is broken → <b>doesn't follow</b> (never rested on ETH; subexponential ≠ fast)
+          <br>(d) The hardness results proved "unless ETH fails" become unproven, not false → <b>follows</b>
+          <br>(e) SETH is false too → <b>follows</b> (SETH implies ETH)
+          <br><i>Each answer's feedback points back to its chapter.</i>
+        </div>
+        <div class="prose">
+          <p>Recap (4 lines): 3-SAT is the switches puzzle, and brute force doubles per switch. ETH bet that every 3-SAT algorithm pays a fixed multiplier per extra switch; SETH bet that for wide rules it's ×2. Many hardness results were built on those bets. OpenAI claims an algorithm just under the wall: if review confirms it, those results become unproven again, SETH falls too (some bounds, edit distance among them, still stand on OVC), and P vs NP and your crypto are untouched.</p>
+          <p>Further reading: OpenAI's math repo (manuscript, Lean files) · Wikipedia, "Exponential time hypothesis".</p>
+        </div>
+      </div>
+      <div class="fig">
+        <span class="kind">CHECK LAYOUT</span>
+        Five full-width statement cards, each with two buttons: "follows" / "doesn't follow". Feedback appears in place. The recap is always visible below (not gated).
+        On mobile: same; 44px buttons.
+      </div>
+    </article>
+  </section>
+
+  <section id="cuts">
+    <h2>Cut list (researched, deliberately left out)</h2>
+    <table>
+      <thead><tr><th>What</th><th>Why it's out</th><th>Cost to add back</th></tr></thead>
+      <tbody>
+        <tr><td>A count of dependent papers ("hundreds")</td><td>Press figure only, unverified</td><td>New research, then one sentence in s-05</td></tr>
+        <tr><td>Sparsification lemma</td><td>A 4th interacting element in s-04 with little payoff</td><td>A collapsed note, one paragraph</td></tr>
+        <tr><td>W[1] ≠ FPT / parameterized complexity</td><td>New vocabulary; k-Clique carries the idea</td><td>A paragraph plus a definition box in s-05</td></tr>
+        <tr><td>Gap-ETH, NSETH explained</td><td>Only named in the s-06 disclosure</td><td>A collapsed note in s-06</td></tr>
+        <tr><td>Algorithm lineage (Schöning, Hertli, Liu)</td><td>One "best known 1.307ⁿ" is enough</td><td>A small timeline in s-03</td></tr>
+        <tr><td>Real per-k multipliers on f-seth</td><td>Not in facts; the figure is marked schematic</td><td>Research, then real ticks</td></tr>
+        <tr><td>Real-world uses of SAT (verification, scheduling)</td><td>Not in facts; importance is grounded in the NP-complete family instead</td><td>Fill-in, then one sentence in s-02</td></tr>
+        <tr><td>Planar 2^{o(√n)} bounds</td><td>Not in facts (source unreadable)</td><td>New research</td></tr>
+        <tr><td>How the algorithm works (polynomial interpolation, split-and-list)</td><td>Beyond novice reach</td><td>A new ~2-min segment</td></tr>
+        <tr><td>Counting corollaries, #ETH, Curticapean bound</td><td>Would crowd s-07</td><td>One more block on the foundation diagram</td></tr>
+        <tr><td>New circuit lower bound for E^NP</td><td>Needs circuit background</td><td>A collapsed paragraph in s-06</td></tr>
+        <tr><td>Williams 2016 MA-SETH refutation</td><td>Risks "SETH already fell" confusion</td><td>A careful sentence in s-07</td></tr>
+        <tr><td>Camerani 2021 "#ETH is False" preprint</td><td>Reception unchecked</td><td>Research, then a sentence in s-08</td></tr>
+        <tr><td>Credit/process debate (NDAs, conference, "shepherds")</td><td>Out of scope per brief</td><td>A paragraph in s-08</td></tr>
+        <tr><td>Kakeya and Yang–Mills results</td><td>Out of scope; a single-clause mention in s-01</td><td>—</td></tr>
+        <tr><td>Repo-wide stats (721 manuscripts, etc.)</td><td>About OpenAI's programme, not ETH</td><td>One sentence</td></tr>
+        <tr><td>Comparator sandbox vulnerability</td><td>Would overstate a minor point</td><td>One sentence in the s-08 disclosure</td></tr>
+        <tr><td>A live SAT-solver race widget</td><td>The speedup is invisible at browser-sized n; it would mislead</td><td>Not recommended</td></tr>
+        <tr><td>Removed at your request (v2): ladder digit bars, 2^√n note, the wall's log scale</td><td>Site-1 comments #2, #5–#7</td><td>Not recommended</td></tr>
+      </tbody>
+    </table>
+
+    <h2>If it runs long (options; everything here is in plan v2 now)</h2>
+    <p class="meta">Per d-07 nothing was cut for the v2 additions. Estimated ~15.5 min. Items 1–5 bring it to ~13.9 min; items 1–8 to ~12.2 min.</p>
+    <table>
+      <thead><tr><th>#</th><th>Cut</th><th>Saves</th><th>What the reader loses</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>The w-race chart in s-06 (keep k-05)</td><td>~0.6 min</td><td>The crossover visual; the feedback keeps the numbers and the caveat</td></tr>
+        <tr><td>2</td><td>The timeline row (now in s-08)</td><td>~0.2 min</td><td>The dates (secondary anyway)</td></tr>
+        <tr><td>3</td><td>The k-Clique block on f-foundation</td><td>~0.2 min</td><td>A second-shape ETH consequence</td></tr>
+        <tr><td>4</td><td>Wall step 6 (1.307¹⁰⁰⁰ written out)</td><td>~0.3 min</td><td>The 302 vs 117 digits comparison; the ladder still ranks it</td></tr>
+        <tr><td>5</td><td>Myth card 3 in s-07</td><td>~0.3 min</td><td>An explicit confrontation of m-05</td></tr>
+        <tr><td>6</td><td>k-04 in s-05</td><td>~0.4 min</td><td>The Constructive moment on conditional theorems</td></tr>
+        <tr><td>7</td><td>The f-family figure (keep its paragraph)</td><td>~0.3 min</td><td>The visual of the family; the class framing stays in prose</td></tr>
+        <tr><td>8</td><td>k-08 (keep the recap)</td><td>~1 min</td><td>Interleaved retrieval</td></tr>
+        <tr><td>9</td><td>The SETH beat and k-06 (not recommended)</td><td>~1.5 min</td><td>What you asked for in d-05; o-4's SETH answer and m-06</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="assets">
+    <h2>Third-party assets</h2>
+    <p>No third-party assets. All figures and widgets are drawn in-house (SVG and JS). The paper's title is quoted as text, not as an image or logo.</p>
+    <table>
+      <thead><tr><th>#</th><th>Asset</th><th>Used in</th><th>Licence</th><th>Clearance</th></tr></thead>
+      <tbody><tr><td>—</td><td>none</td><td>—</td><td>—</td><td class="license">nothing to clear</td></tr></tbody>
+    </table>
+  </section>
+</main>
+<script>
+  const d = document.getElementById('vw-desk'), m = document.getElementById('vw-mob');
+  function set(mobile) {
+    document.body.classList.toggle('mobile', mobile);
+    d.setAttribute('aria-pressed', String(!mobile)); m.setAttribute('aria-pressed', String(mobile));
+  }
+  d.onclick = () => set(false); m.onclick = () => set(true);
+</script>
+</body>
+</html>

@@ -1,0 +1,177 @@
+{
+  "data_origins": [],
+  "page_cdn": [
+    "https://fonts.googleapis.com/css2 (Inter, JetBrains Mono, Source Serif 4; stylesheet + fonts.gstatic.com font files)"
+  ],
+  "contract": {
+    "summary": "w-wall and w-ladder live in scrollytelling sections built by the page builder. The page owns the steps (prose) and the check gates; the widget owns only what is drawn inside its mount and reacts to step changes.",
+    "mount": "The mount is the [data-widget] element inside .d-scrolly-canvas. It has a reserved height from page.css (mobile: min-height 50vh, max-height 55vh; >=900px: min-height 68vh, max-height 70vh), a border and surface background, and overflow:hidden. Draw to fill it; lay out from the mount's own width/height (ctx.onResize), not the window.",
+    "steps": "The page sets data-step=\"<n>\" (1-based) and data-step-key=\"<key>\" on the mount for the active scroll step, and dispatches a CustomEvent 'didactician:step' on the mount with detail {step, key, total} on every change (scrolling up goes back to earlier steps). Read el.dataset.step at init, since the first event may fire before your script runs. Rendering must be idempotent per step: jumping from step 1 to 5 (fast scroll, ToC jump) must show step 5's full state.",
+    "gates": "When a check is committed, every mount gets attribute data-gate-<check-id>=\"open\" (e.g. data-gate-k-02=\"open\") and a CustomEvent 'didactician:gate' with detail {check}. Gated steps are hidden by the page until then, so a widget normally only needs to follow steps.",
+    "multiple_mounts": "w-ladder has TWO mounts with the same id: [data-widget=\"w-ladder\"][data-state=\"eth\"] in s-04 and [data-widget=\"w-ladder\"][data-state=\"claim\"] in s-06. Didactician.widget() only initialises the first match (querySelector), so init every mount yourself (querySelectorAll) or call your init per element, and branch on data-state.",
+    "kit": "assets/widget.js, assets/replay.js and assets/arrow.js are loaded before the widget scripts. Didactician.widget / .load / .onReplay / .arrow are available.",
+    "colour_roles": "Keep these consistent with the rest of the page: brute force 2^n = var(--c6); best known before the claim, 1.307^n = var(--c4); OpenAI's claimed algorithm = var(--c2); ETH = var(--c1); SETH = var(--c5); P != NP zone: use var(--ink-3)/var(--surface-2) (neutral) so it reads as distinct from ETH's var(--c1) band; satisfied / still stands = var(--c3).",
+    "math": "The page renders maths with KaTeX at build time (assets/vendor/katex/katex.min.css is loaded). Inside widgets, use plain text with Unicode superscripts or <sup> (e.g. 2ⁿ, 1.307ⁿ, 2^√n as 2<sup>√n</sup>), or load KaTeX yourself; don't depend on the page's renderer.",
+    "framing": "d-02: always 'OpenAI's claim' / 'the claimed algorithm', never 'the proof'. No count of dependent papers anywhere.",
+    "steps_v2": "Plan v2 step counts: w-wall 6 (steps 4-6 gated on k-02), w-ladder eth 3, w-ladder claim 3. data-step-key values are informational; widgets key on data-step."
+  },
+  "widgets": {
+    "w-switchboard": {
+      "segment": "s-02",
+      "complexity": "low",
+      "built_by": "page-builder",
+      "mount": "#w-switchboard, #w-switchboard-sweep",
+      "size": {
+        "desktop": "prose width (~680px)",
+        "mobile": "100%; switches in a row, lamps 2x2, table below"
+      },
+      "files": [
+        "../assets/page.js",
+        "../assets/page.css"
+      ],
+      "cdn": [],
+      "data_origins": []
+    },
+    "w-race": {
+      "segment": "s-06",
+      "complexity": "low",
+      "built_by": "page-builder",
+      "mount": "#w-race",
+      "size": {
+        "desktop": "<=960 x 360",
+        "mobile": "100% x 320, toggle below"
+      },
+      "files": [
+        "../assets/page.js",
+        "../assets/page.css"
+      ],
+      "cdn": [],
+      "data_origins": []
+    },
+    "w-wall": {
+      "segment": "s-03",
+      "complexity": "high",
+      "blueprint": "B1",
+      "mount": "[data-widget=\"w-wall\"]",
+      "size": {
+        "desktop": "sticky canvas ~5/9 of the scrolly width (kit .d-scrolly 5fr/4fr) x 68-70vh, steps beside it (>=900px)",
+        "mobile": "sticky canvas full width, 50-55vh, steps scroll below; digit blocks 11-12px mono, wrapped (I1)"
+      },
+      "files": [
+        "index.js",
+        "index.css"
+      ],
+      "cdn": [],
+      "data_origins": [],
+      "steps": [
+        {
+          "step": 1,
+          "key": "n=3",
+          "show": "n = 3 switches, 8 rows: one full-height linear bar. No time text on the canvas (the step card says 'instant')."
+        },
+        {
+          "step": 2,
+          "key": "n=20",
+          "show": "n = 20, 1,048,576 rows: new bar at full height; the n = 3 bar redrawn at its true size (a labelled hairline, 'too small to see at this scale')."
+        },
+        {
+          "step": 3,
+          "key": "n=100",
+          "show": "n = 100, 1,267,650,600,228,229,401,496,703,205,376 rows: full-height bar; the n = 20 bar collapses to a labelled hairline."
+        },
+        {
+          "step": 4,
+          "key": "n=110",
+          "gated_on": "k-02",
+          "show": "n = 110 = R(100) × 1,024 rows: full-height bar; the n = 100 bar at H/1,024."
+        },
+        {
+          "step": 5,
+          "key": "n=1000",
+          "gated_on": "k-02",
+          "show": "Digit mode: all 302 digits of 2^1000 written out, labelled '2¹⁰⁰⁰ = a 302-digit number of rows'."
+        },
+        {
+          "step": 6,
+          "key": "best-known",
+          "gated_on": "k-02",
+          "show": "Adds the 117 digits of ⌊1.307^1000⌋ in the same type and line width ('best known before the claim') and an 81-digit '10⁸⁰ ≈ atoms in the observable universe' line."
+        }
+      ],
+      "spec": {
+        "source": "run/plan/learning-plan.md, ### w-wall (plan v2: R-03, R-04)",
+        "summary": "Linear scale throughout, no log axis. Steps 1-4: one true-scale linear bar per step; the previous step's bar redrawn at its real relative height (hairline + dashed outline + label when under 1px). Steps 5-6: the numbers written out in full (302, 117 and 81 digits). Canvas shows n and the row count only: every time translation lives in the page's step cards (H-01).",
+        "page_owns": "Step cards with the time text: step 1 'instant', step 2 'well under a second', step 3 'tens of thousands of years', step 4 'tens of millions of years', step 5 the atoms comparison, step 6 the 1.307ⁿ / fixed-multiplier point."
+      }
+    },
+    "w-ladder": {
+      "segment": "s-04, s-06",
+      "complexity": "high",
+      "blueprint": "B1",
+      "mount": "[data-widget=\"w-ladder\"]",
+      "mounts": [
+        {
+          "selector": "[data-widget=\"w-ladder\"][data-state=\"eth\"]",
+          "segment": "s-04",
+          "steps": 3
+        },
+        {
+          "selector": "[data-widget=\"w-ladder\"][data-state=\"claim\"]",
+          "segment": "s-06",
+          "steps": 3
+        }
+      ],
+      "size": {
+        "desktop": "sticky canvas ~5/9 of the scrolly width x 68-70vh, steps beside it",
+        "mobile": "vertical, sticky 50-55vh, fixed rung pitch >= 40px, labels >= 13px, steps below"
+      },
+      "files": [
+        "index.js",
+        "index.css"
+      ],
+      "cdn": [],
+      "data_origins": [],
+      "steps": {
+        "eth": [
+          {
+            "step": 1,
+            "key": "candidates",
+            "show": "Four candidates: rungs appear with the axis '↑ work grows faster as you add switches' (note 'order as n gets large')."
+          },
+          {
+            "step": 2,
+            "key": "pnp-bet",
+            "show": "P ≠ NP's bracket on the right edge spans every rung above n³; n³ dimmed, 'ruled out by P ≠ NP'."
+          },
+          {
+            "step": 3,
+            "key": "eth-bet",
+            "show": "ETH's line drawn between 1.307ⁿ and 2^√n; a shorter ETH bracket above it; 2^√n dimmed, 'ruled out by ETH (not by P ≠ NP)'; footer 'ETH's bracket is shorter: it's the bolder bet.'"
+          }
+        ],
+        "claim": [
+          {
+            "step": 1,
+            "key": "as-left",
+            "show": "The ladder as left at the end of s-04."
+          },
+          {
+            "step": 2,
+            "key": "new-rung",
+            "show": "The claim rung slides in below ETH's line, above 2^√n, flagged 'below ETH's line: if this holds, ETH's bet is lost'."
+          },
+          {
+            "step": 3,
+            "key": "pnp-untouched",
+            "show": "n³ highlighted: 'still far below: P vs NP untouched'."
+          }
+        ]
+      },
+      "spec": {
+        "source": "run/plan/learning-plan.md, ### w-ladder (plan v2: R-05, R-06, R-14)",
+        "summary": "An ordinal ranking of candidate speeds for the best possible 3-SAT algorithm (no bar lengths or digit counts). Title 'Where could the best possible 3-SAT algorithm sit?'. Each rung: formula, plain name, 'we have this' / 'nobody has found this' tag, per-switch multiplier in words. Bets are bracket rails on the right edge; ETH's line is a labelled dashed rule.",
+        "page_owns": "The s-04 framing question and ETH statement in per-switch words, and the step cards (which don't re-read the rung labels)."
+      }
+    }
+  }
+}

@@ -1,0 +1,104 @@
+/* w-ladder (plan v2): an ordinal ranking. All rules scoped to the mount; colours from tokens only. */
+[data-widget="w-ladder"] .wl {
+  position: relative; width: 100%; overflow: hidden;
+  font-family: var(--font-sans); color: var(--ink);
+  font-size: 13px; line-height: 1.3;
+}
+[data-widget="w-ladder"] .wl > * { position: absolute; }
+[data-widget="w-ladder"] .wl-live {
+  width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; margin: 0;
+}
+
+/* header */
+[data-widget="w-ladder"] .wl-kick {
+  font-size: 13px; color: var(--ink-3); white-space: nowrap; font-variant-numeric: tabular-nums;
+}
+[data-widget="w-ladder"] .wl-title {
+  font-family: var(--font-sans); font-weight: 700; color: var(--ink);
+  font-size: 15px; line-height: 1.25; text-wrap: balance;
+}
+[data-widget="w-ladder"] .is-wide .wl-title { font-size: 16px; }
+[data-widget="w-ladder"] .is-compact .wl-title { font-size: 14px; }
+[data-widget="w-ladder"] .wl-title i { font-style: italic; }
+[data-widget="w-ladder"] .wl-axlab {
+  font-size: 13px; font-weight: 600; color: var(--ink-2); white-space: nowrap;
+}
+[data-widget="w-ladder"] .wl-axlab.is-rot { transform: rotate(-90deg); transform-origin: 50% 50%; }
+[data-widget="w-ladder"] .wl-note { font-size: 13px; font-style: italic; color: var(--ink-3); white-space: nowrap; }
+[data-widget="w-ladder"] .wl-hl { font-size: 13px; font-weight: 650; white-space: nowrap; transition: opacity var(--dur-3) ease-in-out; }
+[data-widget="w-ladder"] .wl-hl-pnp { color: var(--c5); }
+[data-widget="w-ladder"] .wl-hl-eth { color: var(--c1); }
+
+/* axis: a drawn arrow up the left edge */
+[data-widget="w-ladder"] .wl-axis { background: var(--ink-3); border-radius: 1px; }
+[data-widget="w-ladder"] .wl-axhead {
+  width: 0; height: 0;
+  border-left: 5px solid transparent; border-right: 5px solid transparent;
+  border-bottom: 9px solid var(--ink-3);
+}
+
+/* bets: brackets on the right edge (a 3px rail with an end cap at each end) */
+[data-widget="w-ladder"] .wl-rail {
+  box-sizing: border-box; border: 3px solid currentColor; border-left: 0;
+  border-radius: 0 var(--radius-1) var(--radius-1) 0;
+  transition: opacity var(--dur-3) ease-in-out, height var(--dur-3) ease-in-out;
+}
+[data-widget="w-ladder"] .wl-rail-pnp { color: var(--c5); }
+[data-widget="w-ladder"] .wl-rail-eth { color: var(--c1); }
+[data-widget="w-ladder"] .wl-lead { border-left: 1px dotted currentColor; transition: opacity var(--dur-3) ease-in-out; }
+[data-widget="w-ladder"] .wl-lead-pnp { color: var(--c5); }
+[data-widget="w-ladder"] .wl-lead-eth { color: var(--c1); }
+
+/* ETH's line */
+[data-widget="w-ladder"] .wl-ethrule { border-top: 2px dashed var(--c1); transition: opacity var(--dur-3) ease-in-out; }
+[data-widget="w-ladder"] .wl-ethlab {
+  white-space: nowrap; font-size: 13px; color: var(--ink-2);
+  padding: 0 4px; transition: opacity var(--dur-3) ease-in-out;
+}
+[data-widget="w-ladder"] .wl-ethlab b { color: var(--c1); font-weight: 700; }
+
+/* rungs */
+[data-widget="w-ladder"] .wl-row {
+  transition: opacity var(--dur-3) ease-in-out, transform var(--dur-3) var(--ease-out);
+}
+[data-widget="w-ladder"] .wl-row > * { position: absolute; white-space: nowrap; transition: opacity var(--dur-3) ease-in-out; }
+[data-widget="w-ladder"] .wl-f {
+  font-family: var(--font-serif); font-size: 17px; font-weight: 600; line-height: 1.2; color: var(--wl-col);
+}
+[data-widget="w-ladder"] .is-wide .wl-f { font-size: 21px; }
+[data-widget="w-ladder"] .is-compact .wl-f { font-size: 15px; }
+[data-widget="w-ladder"] .wl-f sup { font-size: 0.68em; font-style: italic; line-height: 0; }
+[data-widget="w-ladder"] .is-compact .wl-f sup { font-size: 0.75em; }
+[data-widget="w-ladder"] .wl-row-poly .wl-f { font-style: italic; }
+[data-widget="w-ladder"] .wl-row-poly .wl-f sup { font-style: normal; }
+[data-widget="w-ladder"] .wl-name { font-size: 13px; color: var(--ink); font-weight: 600; }
+[data-widget="w-ladder"] .is-wide .wl-name { font-size: 15px; }
+[data-widget="w-ladder"] .wl-row-claim .wl-name { color: var(--c2); }
+[data-widget="w-ladder"] .wl-mult { font-size: 13px; color: var(--ink-2); }
+[data-widget="w-ladder"] .is-wide .wl-mult { font-size: 14px; }
+
+[data-widget="w-ladder"] .wl-chip {
+  font-size: 13px; line-height: 18px; padding: 0 7px; border-radius: 999px; border: 1px solid transparent;
+}
+[data-widget="w-ladder"] .wl-tag-have { background: var(--surface-2); color: var(--ink-2); border-color: var(--ink-4); }
+[data-widget="w-ladder"] .wl-tag-nobody { color: var(--ink-3); border: 1px dashed var(--ink-3); }
+[data-widget="w-ladder"] .wl-tag-claimed { background: var(--c2-soft); color: var(--c2); border-color: var(--c2); }
+[data-widget="w-ladder"] .wl-ann { font-weight: 650; }
+[data-widget="w-ladder"] .wl-ann-pnp { color: var(--c5); border-color: var(--c5); }
+[data-widget="w-ladder"] .wl-ann-eth { color: var(--c1); border-color: var(--c1); background: var(--c1-soft); }
+[data-widget="w-ladder"] .wl-ann-flag { color: var(--surface); background: var(--c2); border-color: var(--c2); }
+[data-widget="w-ladder"] .wl-ann-ok { color: var(--c3); border-color: var(--c3); background: var(--c3-soft); }
+
+/* states: the current step's change at full ink, context at .35 */
+[data-widget="w-ladder"] .wl-row.is-hidden { opacity: 0; }
+[data-widget="w-ladder"] .wl-row.is-dim > :not(.wl-ann) { opacity: .35; }
+[data-widget="w-ladder"] .wl-ann.is-annDim { opacity: .35; }
+[data-widget="w-ladder"] .wl > .is-dim { opacity: .35; }
+[data-widget="w-ladder"] .wl > .is-hidden { opacity: 0; }
+[data-widget="w-ladder"] .wl-foot { font-size: 13px; font-weight: 650; color: var(--c1); white-space: nowrap; transition: opacity var(--dur-3) ease-in-out; }
+
+@media (prefers-reduced-motion: reduce) {
+  [data-widget="w-ladder"] .wl-row, [data-widget="w-ladder"] .wl-row > *, [data-widget="w-ladder"] .wl-rail,
+  [data-widget="w-ladder"] .wl-hl, [data-widget="w-ladder"] .wl-lead, [data-widget="w-ladder"] .wl-ethrule,
+  [data-widget="w-ladder"] .wl-ethlab, [data-widget="w-ladder"] .wl-foot { transition: none; }
+}

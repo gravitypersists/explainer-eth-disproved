@@ -1,0 +1,366 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mockup: ETH, and the claim it is false</title>
+<!--
+  Checkpoint wireframe skeleton. The instructional designer copies this to run/plan/mockup.html
+  and fills it in. It is deliberately low-fidelity: grey boxes, real words. The human must be able
+  to judge WHAT the piece will contain and HOW it will flow, not how it will look.
+
+  Keep these section ids: #overview #segments #cuts #assets. Replace every ALL-CAPS placeholder.
+  Use real headings, real prompts, real intents. Placeholder FIGURES are fine, but each must carry
+  a written description precise enough that the human can picture it.
+  Prose lines are draft wording (the page builder writes the final prose); prompts, options and
+  answers are final. Keep the note under the Segments heading so the human approves on that basis.
+-->
+<style>
+  :root {
+    --bg: #fafaf9; --panel: #fff; --ink: #1c1917; --ink-2: #57534e; --ink-3: #a8a29e;
+    --line: #e7e5e4; --fill: #f5f5f4; --accent: #2563eb; --warn: #b45309; --ok: #15803d;
+    --s1: 8px; --s2: 16px; --s3: 24px; --s4: 32px; --s6: 48px;
+    --mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+    --sans: system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg:#0c0a09; --panel:#1c1917; --ink:#fafaf9; --ink-2:#d6d3d1; --ink-3:#78716c;
+            --line:#292524; --fill:#292524; --accent:#60a5fa; --warn:#f59e0b; --ok:#4ade80; }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.5 var(--sans); }
+  .bar { position: sticky; top: 0; z-index: 2; display: flex; gap: var(--s2); align-items: center;
+         flex-wrap: wrap; padding: var(--s1) var(--s2); background: var(--panel); border-bottom: 1px solid var(--line);
+         font: 13px/1.4 var(--mono); }
+  .bar b { font-weight: 600; }
+  .bar .sp { flex: 1; }
+  .bar button { font: inherit; padding: 4px 8px; border: 1px solid var(--line); background: var(--fill);
+                color: var(--ink); border-radius: 4px; cursor: pointer; }
+  .bar button[aria-pressed="true"] { border-color: var(--accent); color: var(--accent); }
+  main { max-width: 1040px; margin: 0 auto; padding: var(--s4) var(--s2) var(--s6); }
+  body.mobile main { max-width: 360px; padding-left: 0; padding-right: 0; }
+  body.mobile .seg { grid-template-columns: 1fr; }
+  h1 { font-size: 28px; line-height: 1.2; margin: 0 0 var(--s1); }
+  h2 { font: 600 13px/1.4 var(--mono); letter-spacing: .04em; text-transform: uppercase; color: var(--ink-2);
+       margin: var(--s6) 0 var(--s2); }
+  .meta { color: var(--ink-2); font-size: 14px; }
+  .panel { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: var(--s2); }
+  .seg { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: var(--s2);
+         margin-bottom: var(--s3); }
+  .seg header { grid-column: 1 / -1; display: flex; gap: var(--s1); align-items: baseline; flex-wrap: wrap; }
+  .seg header .id { font: 12px var(--mono); color: var(--ink-3); }
+  .seg header h3 { margin: 0; font-size: 18px; }
+  .tag { font: 11px/1 var(--mono); padding: 3px 6px; border-radius: 3px; background: var(--fill); color: var(--ink-2); }
+  .intent { font-style: italic; color: var(--ink-2); margin: 0 0 var(--s1); }
+  .prose { color: var(--ink-2); font-size: 14px; }
+  .prose p { margin: 0 0 var(--s1); }
+  .fig { min-height: 160px; border: 2px dashed var(--ink-3); border-radius: 8px; background: var(--fill);
+         padding: var(--s2); font-size: 14px; color: var(--ink-2); display: flex; flex-direction: column; gap: var(--s1); }
+  .fig .kind { font: 600 11px var(--mono); letter-spacing: .04em; text-transform: uppercase; color: var(--ink); }
+  .check { border-left: 3px solid var(--accent); padding: var(--s1) var(--s2); background: var(--panel); margin-top: var(--s1); font-size: 14px; }
+  .check .kind { font: 600 11px var(--mono); text-transform: uppercase; color: var(--accent); }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th, td { text-align: left; padding: var(--s1); border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { font: 600 12px var(--mono); color: var(--ink-2); }
+  .needs-user { color: var(--warn); font-weight: 600; }
+  .license { color: var(--ok); }
+  .warn { color: var(--warn); }
+  @media (max-width: 720px) { .seg { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="bar">
+  <b>MOCKUP</b><span>The Exponential Time Hypothesis, and OpenAI's claim that it is false</span><span class="sp"></span>
+  <button type="button" id="vw-desk" aria-pressed="true">desktop</button>
+  <button type="button" id="vw-mob" aria-pressed="false">mobile 360</button>
+</div>
+<main>
+  <section id="overview">
+    <h1>The Exponential Time Hypothesis, and OpenAI's claim that it is false</h1>
+    <p class="meta">For Hacker News readers (novice in complexity theory) · about 12 minutes of the reader's time · scrollytelling in 9 chapters, ToC rail on desktop</p>
+    <div class="panel">
+      <p><b>Shape:</b> A story told in order: a puzzle → the wall it hits → the bet that the wall is permanent (ETH) → what was built on the bet → the claim that breaks it → the fallout → how far to trust it. Sticky canvases advance as you scroll (presentational, as requested). Predict-then-reveal cards sit at the key ideas and at each misconception, so the reader doesn't just watch. Rejected: a full-page explorable or SAT-solver sandbox. It's slower to learn, the user asked for presentation, and the new algorithm's speedup can't be shown at any size a browser can run.</p>
+      <p><b>Framing (d-02):</b> it is always "OpenAI's claim", never "the proof that ETH is false". Press-only details (dates, "practical gains need further work") are attributed as reported. No count of dependent papers is given.</p>
+      <p><b>Objectives:</b></p>
+      <ul>
+        <li><b>o-1</b> Explain 3-SAT with a concrete example, and why brute force takes ~2^n. <span class="meta">checks: k-01, k-02</span></li>
+        <li><b>o-2</b> State ETH in plain words and tell it apart from P≠NP. <span class="meta">checks: k-03, k-08</span></li>
+        <li><b>o-3</b> Explain why ETH matters (conditional lower bounds) with an example or two. <span class="meta">checks: k-04, k-06, k-08</span></li>
+        <li><b>o-4</b> Explain what OpenAI claims, its verification status, and what would and wouldn't follow. <span class="meta">checks: k-05, k-06, k-07, k-08</span></li>
+      </ul>
+      <p class="meta">check_plan warnings: none</p>
+    </div>
+  </section>
+
+  <section id="segments">
+    <h2>Segments</h2>
+    <p class="meta">Prose is draft wording: it shows what each segment says and in what order. The final prose is written for the reader at build time. Check prompts, options and answers are final.</p>
+
+    <article class="seg" id="s-01">
+      <header><span class="id">s-01</span><h3>A paper with a blunt title</h3><span class="tag">hook</span><span class="tag">o-4</span></header>
+      <div>
+        <p class="intent">Hook with the real artifact, framed from line one as a claim under review.</p>
+        <div class="prose">
+          <p>"On 26 October 2026, OpenAI published a paper, written by one of its internal models, titled <i>The Exponential Time Hypothesis is False</i>. The two people who invented that hypothesis are now checking it."</p>
+          <p>Roadmap, as four questions: What's the puzzle? What is ETH? Why did anyone care? And what does it mean if OpenAI is right, and how sure can we be?</p>
+          <p>One clause notes that the same release made two other claims (in harmonic analysis and in physics), which are out of scope here.</p>
+        </div>
+      </div>
+      <div class="fig">
+        <span class="kind">HERO FIGURE · flair</span>
+        A document card showing the paper's real title, "OpenAI", 25 Oct 2026, with a tilted stamp "CLAIM · UNDER REVIEW". Behind it, a field of 0/1 bits flickers once (≤1.5s). Under the card is a 3-item strip: Found by: an unnamed internal OpenAI model · Checked by: Lean proof assistant · Reviewed by: Impagliazzo, Paturi (ETH's inventors), Williams.
+        On mobile: the card is full width; the strip stacks into 3 lines.
+      </div>
+    </article>
+
+    <article class="seg" id="s-02">
+      <header><span class="id">s-02</span><h3>The puzzle: three switches, four rules</h3><span class="tag">concrete → predict</span><span class="tag">o-1</span></header>
+      <div>
+        <p class="intent">Solve a 3-SAT instance by hand before it is named.</p>
+        <div class="prose">
+          <p>"Here are three switches and four rules. Every rule must be on. Try it."</p>
+          <p>After the sweep: "That's 3-SAT: rules that are ORs of at most three switches, all ANDed together. The question is whether any setting satisfies all of them. Checking every setting is brute force: 2^n rows for n switches."</p>
+          <p>Collapsed: "How to read NOT and OR".</p>
+        </div>
+        <div class="check">
+          <div class="kind">PREDICT · k-01</div>
+          There are 2 × 2 × 2 = 8 ways to set the three switches. How many of them light all four rules? Options: None of them / <b>Exactly 2</b> / About half (4) / All 8.
+          <br><i>Feedback:</i> Exactly 2: (F,F,T) and (F,T,T). The only way to be sure was to check every setting, which is brute force. Every extra switch doubles the table.
+        </div>
+      </div>
+      <div class="fig">
+        <span class="kind">WIDGET · w-switchboard · complexity low</span>
+        Three big toggles x / y / z showing T/F. Four lamp cards, each printing its clause: "x OR y OR z", "NOT x OR y", "NOT y OR z", "NOT z OR NOT x". Each lights up and says on/off. Status line: "3 of 4 rules satisfied". It starts at x=T, y=F, z=F, with only "NOT x OR y" off. The "Try all 8" button is locked until k-01 is answered. It then sweeps an 8-row truth table row by row (✓/✗ plus the failing rule), ending "2 of 8 settings work · one more switch → 16 rows". It has a replay button.
+        On mobile: switches in one row, lamps 2×2, table below; 44px targets.
+      </div>
+    </article>
+
+    <article class="seg" id="s-03">
+      <header><span class="id">s-03</span><h3>The doubling wall</h3><span class="tag">scrolly worked example · B1</span><span class="tag">o-1</span></header>
+      <div>
+        <p class="intent">Make 2^n visceral. Show the best known algorithm only shrinks the base.</p>
+        <div class="prose">
+          <p>Step 1, n=3: "8 rows. You just did it."</p>
+          <p>Step 2, n=20: "About a million. A laptop doesn't notice."</p>
+          <p>Step 3, n=100: "About 10^30. A billion computers, each checking a billion rows a second: tens of thousands of years."</p>
+          <p>[k-02 gate] Step 4, n=110: "×1,024."</p>
+          <p>Step 5, n=1000: "10^301, more than the atoms in the observable universe (~10^80)." Then: "Clever algorithms do better: the best known is about 1.307^n. That's a smaller base, but still a wall."</p>
+        </div>
+        <div class="check">
+          <div class="kind">PREDICT · k-02</div>
+          Brute force on 100 switches already needs about 10^30 checks. Add 10 more switches. How much more work is that? Options: About 10% more (tempting) / About 10× more / <b>About 1,000× more</b>.
+          <br><i>Feedback:</i> 2^10 = 1,024. 110 is only 10% bigger than 100, but each switch doubles the table, ten times over.
+        </div>
+      </div>
+      <div class="fig">
+        <span class="kind">WIDGET · w-wall · complexity high</span>
+        A sticky canvas with a giant tabular counter ("n = 100 switches → 1.27 × 10^30 rows") and a one-line time translation under it. A log-scale bar (one tick per ×10) grows between steps. The last step adds a shorter second bar, "1.307^n — best known before the claim", with the caption "Smaller base, same exponential shape." The previous values are dimmed.
+        On mobile: the canvas is sticky at the top, ≤55vh, with the steps scrolling below.
+      </div>
+    </article>
+
+    <article class="seg" id="s-04">
+      <header><span class="id">s-04</span><h3>The bet: "you can't get under the wall"</h3><span class="tag">ladder · B1 → apply</span><span class="tag">o-2</span></header>
+      <div>
+        <p class="intent">State ETH as an unproven assumption. Show on a ladder that it forbids more than P≠NP does.</p>
+        <div class="prose">
+          <p>"In 1999 Russell Impagliazzo and Ramamohan Paturi made a bet: no algorithm will ever get 3-SAT under the wall. Some exponential, c^n with c above 1, is unavoidable. That's the Exponential Time Hypothesis. Nobody proved it. It's an assumption, and a lot got built on it."</p>
+          <p>Ladder steps: (1) the rungs; (2) the P≠NP zone ("not polynomial"); (3) the ETH zone ("not even subexponential"); (4) "ETH is the stronger bet: it forbids more."</p>
+          <p>Collapsed: "The formal statement" (some s&gt;0 such that every algorithm needs 2^(s·n); no 2^{o(n)} algorithm).</p>
+        </div>
+        <div class="check">
+          <div class="kind">APPLY · k-03</div>
+          Suppose someone proved that 3-SAT can be solved in about 2^√n steps. Which assumption would be broken? Options: P ≠ NP (so P = NP) (tempting) / <b>ETH only</b> / Both / Neither.
+          <br><i>Feedback:</i> 2^√n is below every c^n, so it's in ETH's forbidden zone, but above every polynomial. A broken ETH alone says nothing about P vs NP.
+        </div>
+      </div>
+      <div class="fig">
+        <span class="kind">WIDGET · w-ladder (state "eth") · complexity high</span>
+        A sticky ladder. Rungs from fast to slow: n³ "polynomial: what P = NP would need" · 2^√n "subexponential" · 1.307^n "best known" · 2^n "brute force". Bar length is the log of the step count at n=1000, so the gaps are honest. Shaded bands with names printed inside: "P≠NP says: not down here" (polynomial only) and a wider "ETH says: not anywhere down here" (everything below c^n). A gap is left where s-06's rung will go.
+        On mobile: a vertical ladder, sticky ≤55vh, labels ≥13px.
+      </div>
+    </article>
+
+    <article class="seg" id="s-05">
+      <header><span class="id">s-05</span><h3>What was built on the bet</h3><span class="tag">worked conditional → explain</span><span class="tag">o-3</span></header>
+      <div>
+        <p class="intent">Show that ETH is load-bearing, and that SETH is a stronger cousin underneath diff.</p>
+        <div class="prose">
+          <p>"Complexity theorists can rarely prove a problem is hard. What they can prove is: <i>if</i> this were much faster, 3-SAT would be too. So: 'Graph colouring has no 2^{o(n)} algorithm, unless ETH fails.'"</p>
+          <p>The same move gives Hamiltonian cycle, vertex cover, and k-Clique (n^{o(k)}: brute-force search is essentially optimal). Many results take this form; no count is given.</p>
+          <p>"There's an even stronger bet, SETH: as rules get wider, nothing beats brute force by much. It underwrites a famous one: edit distance, the engine of diff, can't be done much faster than quadratic."</p>
+          <p>Collapsed: "Why is SETH stronger?"</p>
+        </div>
+        <div class="check">
+          <div class="kind">EXPLAIN · k-04 · think, then reveal</div>
+          A paper proves "graph colouring has no 2^{o(n)} algorithm, unless ETH fails." In your own words: what did it actually prove, and what would make the statement stop telling us anything about hardness?
+          <br><i>Model answer:</i> It proved a link: a much faster colouring algorithm would give a much faster 3-SAT algorithm. Colouring is "hard" only while ETH holds. If ETH fails, the statement is still true but no longer shows hardness.
+        </div>
+      </div>
+      <div class="fig">
+        <span class="kind">FIGURE · f-foundation (state A: before) · builds in 2 steps</span>
+        Two foundation blocks at the bottom: "ETH", with "SETH (stronger) · SETH ⇒ ETH" stacked on it. Theorem blocks above them, each printing its statement, with arrows labelled "unless … fails". On ETH: "Graph colouring / Hamiltonian cycle / vertex cover: no 2^{o(n)}" and "k-Clique: no n^{o(k)}". On SETH: "Edit distance (diff): no O(n^{2−δ})". A faint "… and many more" block.
+        On mobile: vertical, with the bases at the bottom and the blocks stacked above.
+      </div>
+    </article>
+
+    <article class="seg" id="s-06">
+      <header><span class="id">s-06</span><h3>The claim</h3><span class="tag">statement → ladder → predict → chart</span><span class="tag">o-4</span></header>
+      <div>
+        <p class="intent">Say exactly what's claimed and where it lands: just under the wall, nowhere near polynomial.</p>
+        <div class="prose">
+          <p>"OpenAI's claim: a deterministic algorithm that <i>counts</i> the solutions of any 3-SAT formula, or any fixed-width k-SAT, in roughly</p>
+          <p style="text-align:center">2^( n / (log n)^{1/2 + o(1)} )</p>
+          <p>steps, times a polynomial, using only polynomial memory. If you can count solutions you can tell whether there is one, so the 3-SAT case is a 2^{o(n)} algorithm. That's ETH's forbidden zone."</p>
+          <p>The timeline strip comes next. Collapsed: "What the paper actually proves" (fixed k; deterministic; polynomial space; also refutes SETH, Gap-ETH and NSETH).</p>
+        </div>
+        <div class="check">
+          <div class="kind">PREDICT · k-05</div>
+          The claimed algorithm is subexponential, and the old best was exponential. When do you expect it to beat the old best (1.307^n) on real formulas? Options: Immediately: SAT solvers get much faster (tempting) / Somewhere around a few hundred variables / <b>Only at enormous sizes, if ever in practice, and nobody knows the real constants</b>.
+          <br><i>Feedback:</i> With every constant generously set to 1, the bound only edges past 1.307^n around n ≈ 1,000 (sparse formulas), or n ≈ 10^83 (general). The exponent shrinks by only ~√log n. Real solvers exploit structure, not worst-case bounds. Press reports OpenAI saying practical gains need substantial further work.
+        </div>
+      </div>
+      <div class="fig">
+        <span class="kind">WIDGET · w-ladder (state "claim") · complexity high</span>
+        The same ladder. A new rung slides in just below 1.307^n: "OpenAI's claimed algorithm: 2^{n/√log n} (roughly)", flagged inside ETH's band. The polynomial rung far below is labelled "Still nowhere near this: P vs NP untouched."
+        <span class="kind">FIGURE · timeline strip</span>
+        16 Oct: model finds the disproof (as reported) · 17 Oct: formalised in Lean (as reported) · 25 Oct: manuscript · 26 Oct: published, review group announced.
+        <span class="kind">WIDGET · w-race · complexity low · revealed after k-05</span>
+        A log-scale chart, n from 10 to 10^6, y = digits in the step count. Three lines labelled at their ends: 2^n, 1.307^n, and the claim. The crossover is marked: "≈ n = 1,000 (constants set to 1)". A [sparse | general] toggle. In general mode an arrow at the right edge reads "crossover ≈ n = 10^83 →". A banner inside the chart: "Illustrative: real constants unknown, could be large."
+        On mobile: the ladder is vertical and sticky; the chart is full width × 320px with the toggle below.
+      </div>
+    </article>
+
+    <article class="seg" id="s-07">
+      <header><span class="id">s-07</span><h3>If it holds: what falls, what stands</h3><span class="tag">predict → misconceptions · B4</span><span class="tag">o-3</span><span class="tag">o-4</span></header>
+      <div>
+        <p class="intent">Work through the consequences: unproven (not false) theorems, SETH falls too, OVC survivors, no P=NP, no crypto break.</p>
+        <div class="prose">
+          <p>"Back to the foundation. If ETH goes, what happens to everything stacked on it?"</p>
+          <p>After k-06, the diagram cracks. "These theorems aren't wrong. They're conditional statements whose condition has failed. They're unproven again. Nobody has found a fast algorithm for colouring or diff."</p>
+          <p>Three myth cards, shown together (not a carousel).</p>
+        </div>
+        <div class="check">
+          <div class="kind">PREDICT · k-06</div>
+          The famous result that edit distance (the core of diff) can't be done much faster than quadratic time assumes SETH, not ETH. If OpenAI's claim holds, what happens to that result? Options: Untouched: only ETH was refuted (tempting) / <b>It loses its basis: SETH falls too</b> / Edit distance now has a fast algorithm.
+          <br><i>Feedback:</i> SETH implies ETH, so ETH false means SETH false, and the paper says so. But "loses its basis" isn't "now fast". Some cousins (longest common subsequence, regex matching) can still lean on OVC, which this doesn't touch.
+        </div>
+      </div>
+      <div class="fig">
+        <span class="kind">FIGURE · f-foundation (state B: if the claim holds) · revealed after k-06</span>
+        The ETH and SETH blocks crack and read "refuted (claimed)". Each theorem block keeps its text and gets a chip, "unproven again, not disproved". Edit distance reads "basis lost". A third base appears, "Orthogonal Vectors Conjecture (not refuted)", holding "Longest common subsequence, regex matching: still stands".
+        <span class="kind">FIGURE · 3 myth cards in a grid</span>
+        (1) "So P = NP?" → No. 2^{n/√log n} is far above polynomial, and the paper itself says general NP problems don't become subexponential. (2) "So crypto is broken?" → No. Factoring has had a subexponential algorithm (GNFS) for decades; properly sized RSA is still secure. "Subexponential" can mean astronomically slow. (3) "So colouring and Hamiltonian cycle are fast now?" → No. Losing the proof of hardness isn't finding a fast algorithm.
+        On mobile: the diagram is vertical; the cards stack.
+      </div>
+    </article>
+
+    <article class="seg" id="s-08">
+      <header><span class="id">s-08</span><h3>Is it true? What "verified" does and doesn't mean</h3><span class="tag">contrast · B4 → explain</span><span class="tag">o-4</span></header>
+      <div>
+        <p class="intent">Teach the reader to read "verified in Lean" correctly, and what to watch for.</p>
+        <div class="prose">
+          <p>"'Verified in Lean' is strong evidence, and it's also narrower than it sounds."</p>
+          <p>After the table: the review group's own words, as reported: "Our involvement should not be taken as certification of the claim." Base rate: the same repo withdrew three unrelated manuscripts on 7 Oct after a sign error.</p>
+          <p>What to watch for: the working group's write-up · whether the Lean definitions are judged faithful · independent re-checks · whether the paper's sharper bound holds.</p>
+          <p>Collapsed: "The exact formal bound" (Lean proves 2^{A·n(log log n)²/√log n}, slightly weaker than the headline but still enough to refute ETH).</p>
+        </div>
+        <div class="check">
+          <div class="kind">EXPLAIN · k-07 · think, then reveal</div>
+          Lean's checker accepted the proof. Name one way the result could still turn out to be wrong, or weaker than advertised.
+          <br><i>Model answer:</i> Lean confirms that the formal theorem follows. Humans must confirm that the formal definitions (machine model, formula encoding, what "time" counts) mean what the paper says. A subtly off definition could make the checked theorem say less than the headline. That's why ETH's own inventors are reviewing it, and why they say their involvement isn't a certification.
+        </div>
+      </div>
+      <div class="fig">
+        <span class="kind">FIGURE · two-column table + review card</span>
+        The left column, "Lean's checker guarantees", has three rows: it proves exactly the stated theorem · it uses only the 3 standard axioms · the Lean kernel accepts it. The right column, "Humans still have to confirm", has three rows: the definitions (Turing-machine model, CNF encoding) are faithful · the paper's sharper bound (not the one formalised) holds · the informal parts are right. Under the table, a card: "Working group: Impagliazzo, Paturi (ETH's inventors), Williams" plus the quote.
+        On mobile: two stacked panels with matching row labels.
+      </div>
+    </article>
+
+    <article class="seg" id="s-09">
+      <header><span class="id">s-09</span><h3>The whole story in five statements</h3><span class="tag">interleaved retrieval → recap</span><span class="tag">o-2</span><span class="tag">o-3</span><span class="tag">o-4</span></header>
+      <div>
+        <p class="intent">Retrieve across all objectives, then close.</p>
+        <div class="check">
+          <div class="kind">SORT · k-08 · each statement committed separately</div>
+          Suppose the claim survives review. For each statement, does it follow?
+          <br>(a) P = NP → <b>doesn't follow</b> (far above polynomial)
+          <br>(b) 3-SAT can be solved in 2^{o(n)} time → <b>follows</b> (that's the claim)
+          <br>(c) RSA encryption is broken → <b>doesn't follow</b> (never rested on ETH; subexponential ≠ fast)
+          <br>(d) Theorems proved "unless ETH fails" become unproven, not false → <b>follows</b>
+          <br>(e) SETH is false too → <b>follows</b> (SETH implies ETH)
+          <br><i>Each answer's feedback points back to its chapter.</i>
+        </div>
+        <div class="prose">
+          <p>Recap (4 lines): 3-SAT is the switches puzzle, and brute force doubles per switch. ETH bet that no algorithm gets under an exponential wall. Many hardness results were built on that bet. OpenAI claims an algorithm just under the wall: if review confirms it, those results become unproven again, SETH falls too, and P vs NP and your crypto are untouched.</p>
+          <p>Further reading: OpenAI's math repo (manuscript, Lean files) · Wikipedia, "Exponential time hypothesis".</p>
+        </div>
+      </div>
+      <div class="fig">
+        <span class="kind">CHECK LAYOUT</span>
+        Five full-width statement cards, each with two buttons: "follows" / "doesn't follow". Feedback appears in place. The recap is always visible below (not gated).
+        On mobile: same; 44px buttons.
+      </div>
+    </article>
+  </section>
+
+  <section id="cuts">
+    <h2>Cut list (researched, deliberately left out)</h2>
+    <table>
+      <thead><tr><th>What</th><th>Why it's out</th><th>Cost to add back</th></tr></thead>
+      <tbody>
+        <tr><td>A count of dependent papers ("hundreds")</td><td>Press figure only, unverified</td><td>New research, then one sentence in s-05</td></tr>
+        <tr><td>Sparsification lemma</td><td>A 4th interacting element in s-04 with little payoff</td><td>A collapsed note, one paragraph</td></tr>
+        <tr><td>W[1] ≠ FPT / parameterized complexity</td><td>New vocabulary; k-Clique carries the idea</td><td>A paragraph plus a definition box in s-05</td></tr>
+        <tr><td>Gap-ETH, NSETH explained</td><td>Only named in the s-06 scaffold</td><td>A collapsed note in s-06</td></tr>
+        <tr><td>Algorithm lineage (Schöning, Hertli, Liu)</td><td>One "best known 1.307^n" is enough</td><td>A small timeline in s-03</td></tr>
+        <tr><td>Planar 2^{o(√n)} bounds</td><td>Not in facts (source unreadable)</td><td>New research</td></tr>
+        <tr><td>How the algorithm works (polynomial interpolation, split-and-list)</td><td>Beyond novice reach in 12 min</td><td>A new ~2-min segment</td></tr>
+        <tr><td>Counting corollaries, #ETH, Curticapean bound</td><td>Would crowd s-07</td><td>One more block on the foundation diagram</td></tr>
+        <tr><td>New circuit lower bound for E^NP</td><td>Needs circuit background</td><td>A collapsed paragraph in s-06</td></tr>
+        <tr><td>Williams 2016 MA-SETH refutation</td><td>Risks "SETH already fell" confusion</td><td>A careful sentence in s-07</td></tr>
+        <tr><td>Camerani 2021 "#ETH is False" preprint</td><td>Reception unchecked</td><td>Research, then a sentence in s-08</td></tr>
+        <tr><td>Credit/process debate (NDAs, conference, "shepherds")</td><td>Out of scope per brief</td><td>A paragraph in s-08</td></tr>
+        <tr><td>Kakeya and Yang–Mills results</td><td>Out of scope; a single-clause mention in s-01</td><td>—</td></tr>
+        <tr><td>Repo-wide stats (721 manuscripts, etc.)</td><td>About OpenAI's programme, not ETH</td><td>One sentence</td></tr>
+        <tr><td>Comparator sandbox vulnerability</td><td>Would overstate a minor point</td><td>One sentence in the s-08 scaffold</td></tr>
+        <tr><td>A live SAT-solver race widget</td><td>The speedup is invisible at browser-sized n; it would mislead</td><td>Not recommended</td></tr>
+      </tbody>
+    </table>
+
+    <h2>If it runs long (in the plan now; cut in this order)</h2>
+    <p class="meta">The prose is written at whatever length clarity needs. If the built page runs long, you pick cuts from here.</p>
+    <table>
+      <thead><tr><th>#</th><th>Cut</th><th>What the reader loses</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>The w-race chart in s-06 (keep k-05)</td><td>The crossover visual; the feedback still gives the numbers and the caveat</td></tr>
+        <tr><td>2</td><td>The s-06 timeline strip</td><td>The dates (secondary anyway); no objective lost</td></tr>
+        <tr><td>3</td><td>The w-wall final 1.307^n step</td><td>One reinforcement; the ladder still shows the rung</td></tr>
+        <tr><td>4</td><td>Myth card 3 in s-07</td><td>An explicit confrontation of m-05 (still in k-04/k-06 feedback)</td></tr>
+        <tr><td>5</td><td>k-04 in s-05</td><td>The Constructive moment on conditional theorems; o-3 still checked by k-06 and k-08</td></tr>
+        <tr><td>6</td><td>k-08 (keep the recap)</td><td>Interleaved retrieval; each objective keeps an earlier check</td></tr>
+        <tr><td>7</td><td>The SETH layer and k-06 (last resort)</td><td>o-4's "does it touch SETH?" and m-06</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="assets">
+    <h2>Third-party assets</h2>
+    <p>No third-party assets. All figures and widgets are drawn in-house (SVG and JS). The paper's title is quoted as text, not as an image or logo.</p>
+    <table>
+      <thead><tr><th>#</th><th>Asset</th><th>Used in</th><th>Licence</th><th>Clearance</th></tr></thead>
+      <tbody><tr><td>—</td><td>none</td><td>—</td><td>—</td><td class="license">nothing to clear</td></tr></tbody>
+    </table>
+  </section>
+</main>
+<script>
+  const d = document.getElementById('vw-desk'), m = document.getElementById('vw-mob');
+  function set(mobile) {
+    document.body.classList.toggle('mobile', mobile);
+    d.setAttribute('aria-pressed', String(!mobile)); m.setAttribute('aria-pressed', String(mobile));
+  }
+  d.onclick = () => set(false); m.onclick = () => set(true);
+</script>
+</body>
+</html>

@@ -1,0 +1,155 @@
+/* w-wall: scoped to the mount. Tokens only. Linear scale throughout (plan v2, R-04). */
+/* fixed height (clamped by the page's max-height: 55vh mobile, 70vh desktop) so the sticky canvas never jumps between steps */
+[data-widget="w-wall"] { position: relative; display: flex; flex-direction: column; height: 70vh; }
+
+[data-widget="w-wall"] .ww {
+  --bw: 88px; --ww-dfs: 14px; --ww-per: 40;
+  flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; gap: var(--sp-2);
+  padding: var(--sp-3); box-sizing: border-box; font-family: var(--font-sans); color: var(--ink);
+}
+[data-widget="w-wall"] .ww[data-layout="narrow"] { --bw: 64px; padding: var(--sp-2); gap: var(--sp-1); }
+
+/* ---- head: n and the row count only (no time text, H-01) ---- */
+[data-widget="w-wall"] .ww-head { flex: 0 0 auto; min-width: 0; }
+[data-widget="w-wall"] .ww-n { font-size: var(--fs-h3); line-height: var(--lh-h3); color: var(--ink-2); }
+[data-widget="w-wall"] .ww-nval { font-family: var(--font-mono); font-weight: 700; color: var(--ink); font-variant-numeric: tabular-nums; }
+[data-widget="w-wall"] .ww-count {
+  font-family: var(--font-mono); font-weight: 700; font-variant-numeric: tabular-nums; color: var(--c6);
+  font-size: 1.375rem; line-height: 1.3; overflow-wrap: anywhere;
+}
+[data-widget="w-wall"] .ww-f { color: var(--ink-3); font-weight: 400; }
+[data-widget="w-wall"] sup { font-size: max(12px, .65em); line-height: 0; vertical-align: .6em; }
+[data-widget="w-wall"] .ww-unit { font-family: var(--font-sans); font-weight: 400; font-size: max(12px, .7em); color: var(--ink-2); }
+/* reserve two lines so the plot (and so the full-height bar) keeps one height from step to step */
+[data-widget="w-wall"] .ww[data-mode="bars"] .ww-count { min-height: 2.6em; }
+[data-widget="w-wall"] .ww[data-layout="narrow"] .ww-n { font-size: var(--fs-small); line-height: var(--lh-small); }
+[data-widget="w-wall"] .ww[data-layout="narrow"] .ww-count { font-size: 0.9375rem; line-height: 1.35; }
+[data-widget="w-wall"] .ww[data-mode="digits"] .ww-count { display: none; }
+
+/* ---- bar mode (steps 1-4): linear, current bar = full plot height ---- */
+[data-widget="w-wall"] .ww-bars { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; }
+[data-widget="w-wall"] .ww[data-mode="digits"] .ww-bars { display: none; }
+[data-widget="w-wall"] .ww-plot {
+  flex: 1 1 auto; min-height: 0; display: grid; grid-template-columns: minmax(0, 1fr) var(--bw); gap: var(--sp-2);
+  border-bottom: 1px solid var(--ink-4);
+}
+[data-widget="w-wall"] .ww-col { position: relative; min-width: 0; min-height: 0; }
+[data-widget="w-wall"] .ww-bar {
+  position: absolute; bottom: 0; height: 100%; transform-origin: 50% 100%; transform: scaleY(0);
+  transition: transform 700ms var(--ease-out); background: var(--c6);
+}
+[data-widget="w-wall"] .ww-bar-cur { left: 0; right: 0; }
+[data-widget="w-wall"] .ww-bar-prev { right: 0; width: var(--bw); opacity: .55; }
+/* a sub-pixel bar is drawn as a 1px hairline at full ink so it can be found inside its dashed outline */
+[data-widget="w-wall"] .ww-prev.is-tiny .ww-bar-prev { opacity: 1; background: var(--ink); transition: transform 700ms var(--ease-out), opacity 0s 650ms, background-color 0s 650ms; }
+
+/* previous step: callout at the top of its column, dashed leader down to the hairline + dashed outline */
+[data-widget="w-wall"] .ww-prev { display: flex; flex-direction: column; }
+[data-widget="w-wall"] .ww-call {
+  flex: 0 0 auto; font-size: 0.8125rem; line-height: 1.35; color: var(--ink-2); overflow-wrap: anywhere;
+  transition: opacity var(--dur-2) ease 450ms;
+}
+[data-widget="w-wall"] .ww-call b { font-family: var(--font-mono); color: var(--ink); }
+[data-widget="w-wall"] .ww-call-num { font-family: var(--font-mono); font-variant-numeric: tabular-nums; color: var(--ink); }
+[data-widget="w-wall"] .ww-call-note { font-style: italic; color: var(--ink-2); }
+[data-widget="w-wall"] .ww-lead {
+  flex: 1 1 auto; min-height: 8px; align-self: flex-end; width: calc(var(--bw) / 2); margin: var(--sp-half) 0 18px;
+  border-left: 1px dashed var(--ink-3); box-sizing: border-box; transition: opacity var(--dur-2) ease 450ms;
+}
+[data-widget="w-wall"] .ww-outline {
+  position: absolute; right: -3px; bottom: -3px; width: calc(var(--bw) + 6px); height: 16px; box-sizing: border-box;
+  border: 1.5px dashed var(--ink-2); border-radius: var(--radius-1); transition: opacity var(--dur-2) ease 450ms;
+}
+[data-widget="w-wall"] .ww-prev:not(.is-tiny) .ww-outline,
+[data-widget="w-wall"] .ww-prev:not(.is-tiny) .ww-lead { opacity: 0; }
+[data-widget="w-wall"] .ww-prev.is-empty .ww-call,
+[data-widget="w-wall"] .ww-prev.is-empty .ww-outline,
+[data-widget="w-wall"] .ww-prev.is-empty .ww-lead,
+[data-widget="w-wall"] .ww-prev.is-empty .ww-bar { opacity: 0; transition: none; }
+
+[data-widget="w-wall"] .ww-labs {
+  flex: 0 0 auto; display: grid; grid-template-columns: minmax(0, 1fr) var(--bw); gap: var(--sp-2); padding-top: var(--sp-half);
+  font-family: var(--font-mono); font-size: 0.8125rem; line-height: 1.35; font-weight: 700;
+}
+[data-widget="w-wall"] .ww-lab-prev { text-align: right; color: var(--ink-3); }
+[data-widget="w-wall"] .ww-lab-cur { text-align: center; color: var(--ink); }
+
+/* ---- digit mode (steps 5-6): the numbers written out; shared type + line width, so area = digit count ---- */
+[data-widget="w-wall"] .ww-digits {
+  flex: 1 1 auto; min-height: 0; overflow: hidden; display: flex; flex-direction: column; gap: var(--sp-1); position: relative;
+}
+[data-widget="w-wall"] .ww[data-mode="bars"] .ww-digits { display: none; }
+[data-widget="w-wall"] .ww-measure { position: absolute; visibility: hidden; font-family: var(--font-mono); white-space: nowrap; }
+[data-widget="w-wall"] .ww-ruler {
+  flex: 0 0 auto; font-family: var(--font-mono); font-size: var(--ww-dfs); width: calc(var(--ww-per) * 1ch);
+  max-width: 100%; text-align: center; border-bottom: 1px solid var(--ink-4); position: relative; line-height: 1;
+}
+[data-widget="w-wall"] .ww-ruler::before, [data-widget="w-wall"] .ww-ruler::after {
+  content: ""; position: absolute; bottom: -1px; width: 1px; height: 7px; background: var(--ink-3);
+}
+[data-widget="w-wall"] .ww-ruler::before { left: 0; }
+[data-widget="w-wall"] .ww-ruler::after { right: 0; }
+[data-widget="w-wall"] .ww-ruler-t { display: inline-block; padding-bottom: 3px; font-family: var(--font-sans); font-size: 0.75rem; line-height: 1.2; color: var(--ink-3); }
+
+[data-widget="w-wall"] .ww-blk { flex: 0 0 auto; min-width: 0; transition: opacity var(--dur-2) ease; }
+[data-widget="w-wall"] .ww-blab { font-size: 0.8125rem; line-height: 1.35; color: var(--ink-2); margin-bottom: 2px; }
+[data-widget="w-wall"] .ww-blab b { color: var(--ink); white-space: nowrap; }
+[data-widget="w-wall"] .ww-short { display: none; }
+[data-widget="w-wall"] .ww[data-layout="narrow"] .ww-long, [data-widget="w-wall"] .ww[data-short] .ww-long { display: none; }
+[data-widget="w-wall"] .ww[data-layout="narrow"] .ww-short, [data-widget="w-wall"] .ww[data-short] .ww-short { display: inline; }
+[data-widget="w-wall"] .ww-brow { display: flex; align-items: stretch; gap: 6px; }
+[data-widget="w-wall"] .ww-dg {
+  font-family: var(--font-mono); font-size: var(--ww-dfs); line-height: 1.22; font-weight: 600; letter-spacing: 0;
+  width: calc(var(--ww-per) * 1ch); max-width: calc(100% - 30px); word-break: break-all; overflow-wrap: anywhere;
+  font-variant-numeric: tabular-nums; color: var(--c6);
+}
+[data-widget="w-wall"] .ww-brk { position: relative; flex: 0 0 7px; border: 2px solid var(--ink-3); border-left: 0; box-sizing: border-box; }
+[data-widget="w-wall"] .ww-brk span {
+  position: absolute; left: 10px; top: 50%; transform: translateY(-50%); writing-mode: vertical-rl;
+  white-space: nowrap; font-size: 0.75rem; line-height: 1; font-weight: 600; color: var(--ink-2); display: none;
+}
+[data-widget="w-wall"] .ww-brow.has-brk-text .ww-brk span { display: block; }
+
+[data-widget="w-wall"] .ww-blk-best .ww-dg { color: var(--c4); }
+[data-widget="w-wall"] .ww-blk-best .ww-blab b { color: var(--c4); }
+[data-widget="w-wall"] .ww-blk-atoms .ww-dg { color: var(--ink-3); font-weight: 400; }
+[data-widget="w-wall"] .ww-blk-best { display: none; }
+[data-widget="w-wall"] .ww.has-best .ww-blk-best { display: block; }
+/* current step at full ink, earlier ones dimmed */
+[data-widget="w-wall"] .ww.has-best .ww-blk-two { opacity: .5; }
+
+[data-widget="w-wall"] .ww-cap { flex: 0 0 auto; margin: 0; font-size: 0.8125rem; line-height: 1.35; font-weight: 600; color: var(--ink); display: none; }
+[data-widget="w-wall"] .ww.has-best .ww-cap { display: block; }
+
+/* tight: very short canvases (landscape phones) */
+[data-widget="w-wall"] .ww.is-tight .ww-digits { gap: var(--sp-half); }
+[data-widget="w-wall"] .ww.is-tight .ww-ruler { display: none; }
+[data-widget="w-wall"] .ww[data-mode="digits"][data-layout="narrow"] .ww-n,
+[data-widget="w-wall"] .ww.is-tight .ww-n { font-size: 0.875rem; line-height: 1.3; }
+[data-widget="w-wall"] .ww.is-tight .ww-blab { margin-bottom: 0; line-height: 1.25; }
+
+/* short canvases (landscape phones, ~200px tall): bars mode puts the head beside the plot;
+   digit mode puts each block's label in a column to the left of its digits */
+[data-widget="w-wall"] .ww[data-short][data-mode="bars"] {
+  display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); grid-template-rows: minmax(0, 1fr); padding: var(--sp-2); gap: var(--sp-2);
+}
+[data-widget="w-wall"] .ww[data-short][data-mode="bars"] .ww-head { align-self: center; }
+[data-widget="w-wall"] .ww[data-short][data-mode="bars"] .ww-count { min-height: 0; font-size: 0.9375rem; }
+[data-widget="w-wall"] .ww[data-short][data-mode="bars"] .ww-bars { min-height: 0; }
+[data-widget="w-wall"] .ww[data-short] .ww-call { font-size: 0.75rem; line-height: 1.3; }
+[data-widget="w-wall"] .ww[data-short][data-mode="digits"] { padding: var(--sp-1) var(--sp-2); gap: var(--sp-half); }
+[data-widget="w-wall"] .ww[data-short] .ww-blk { display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: var(--sp-1); align-items: start; }
+[data-widget="w-wall"] .ww[data-short] .ww-blk-best { display: none; }
+[data-widget="w-wall"] .ww[data-short].has-best .ww-blk-best { display: grid; }
+[data-widget="w-wall"] .ww[data-short] .ww-blab { font-size: 0.75rem; line-height: 1.25; }
+[data-widget="w-wall"] .ww[data-short] .ww-ruler { margin-left: calc(150px + var(--sp-1)); }
+[data-widget="w-wall"] .ww[data-short] { position: relative; }
+[data-widget="w-wall"] .ww[data-short] .ww-digits { position: static; }
+[data-widget="w-wall"] .ww[data-short] .ww-cap { position: absolute; top: var(--sp-1); right: var(--sp-2); line-height: var(--lh-small); }
+
+/* screen-reader sentence */
+[data-widget="w-wall"] .ww-sr { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; padding: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  [data-widget="w-wall"] .ww-bar, [data-widget="w-wall"] .ww-call, [data-widget="w-wall"] .ww-lead, [data-widget="w-wall"] .ww-outline { transition: none; }
+}
